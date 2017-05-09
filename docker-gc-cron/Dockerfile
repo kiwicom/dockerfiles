@@ -12,8 +12,8 @@ RUN apk --no-cache add bash curl tzdata && \
   tar zxf docker-${DOCKER_VERSION}.tgz && \
   mkdir -p /usr/local/bin/ && \
   mv /tmp/docker/docker /usr/local/bin/ && \
-  curl -sSL -O https://raw.githubusercontent.com/spotify/docker-gc/master/docker-gc > /usr/local/bin/docker-gc && \
-  chmod +x /usr/local/bin/docker /usr/local/bin/docker-gc && \
+  curl -sSL -O https://raw.githubusercontent.com/spotify/docker-gc/master/docker-gc > /usr/bin/docker-gc && \
+  chmod +x /usr/local/bin/docker /usr/bin/docker-gc && \
   apk del curl && \
   rm -rf /tmp/* /var/cache/apk/*
 

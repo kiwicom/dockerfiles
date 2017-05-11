@@ -30,5 +30,7 @@ CMD /generate-crontab.sh > /var/log/cron.log 2>&1 && \
   /usr/sbin/crond && \
   tail -f /var/log/cron.log
 
+ENV CLEAN_UP_VOLUMES=1
+
 LABEL name=docker-gc-cron version=dev \
       maintainer="Simone Esposito <simone@kiwi.com>" 

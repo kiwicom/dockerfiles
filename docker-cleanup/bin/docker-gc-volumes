@@ -1,0 +1,8 @@
+#!/bin/bash
+if [ $(docker volume ls -qf dangling=true | wc -l) -gt 0 ]
+then
+    echo "Cleaning up dangling volumes."
+    docker volume rm $(docker volume ls -qf dangling=true)
+else
+    echo "No dangling volumes found."
+fi

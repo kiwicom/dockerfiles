@@ -1,0 +1,65 @@
+#!/bin/bash
+set -euo pipefail
+set -o errexit
+set -o errtrace
+
+if [ "x$FTP_USER" == "x" ]
+then
+  echo Please set \$FTP_USER
+  exit 1
+fi
+
+if [ "x$FTP_PASS" == "x" ]
+then
+  echo Please set \$FTP_PASS
+  exit 1
+fi
+
+
+echo "Creating user ${FTP_USER}"
+adduser -D ${FTP_USER}
+echo "${FTP_USER}:${FTP_PASS}" | chpasswd
+
+export AWSACCESSKEYID=${AWS_ACCESS_KEY}
+export AWSSECRETACCESSKEY=${AWS_SECRET_KEY}
+
+mkdir -p /home/$FTP_USER
+mkdir -p /home/$FTP_USER/s3
+
+chown -R $FTP_USER /home/$FTP_USER
+
+s3fs $S3_BUCKET /home/$FTP_USER/s3  -o nosuid,nonempty,nodev,allow_other,retries=5
+
+echo "StrictModes no
+PasswordAuthentication yes
+AllowUsers $FTP_USER
+AuthorizedKeysFile /keys/$FTP_USER
+UseDNS no
+Subsystem sftp internal-sftp
+Match User $FTP_USER
+ForceCommand internal-sftp
+AllowTCPForwarding no
+X11Forwarding no
+" > /etc/ssh/sshd_config
+
+if [ "x$FTP_PUBLIC_KEY" != "x" ]
+then
+  mkdir -p /keys
+  echo $FTP_PUBLIC_KEY > /keys/$FTP_USER
+  chown $FTP_USER:$FTP_USER /keys/$FTP_USER
+  chmod 0444 /keys/$FTP_USER
+fi
+
+
+if [ ! -f /etc/ssh/ssh_host_rsa_key ]
+then
+    ssh-keygen -t rsa -b 2048 -N '' -f /etc/ssh/ssh_host_rsa_key
+    ssh-keygen -t dsa -N '' -f /etc/ssh/ssh_host_dsa_key
+    ssh-keygen -t ecdsa -N '' -f /etc/ssh/ssh_host_ecdsa_key
+    ssh-keygen -t ed25519 -N '' -f /etc/ssh/ssh_host_ed25519_key || true
+fi
+
+echo "SFTP credentials: $FTP_USER:$FTP_PASS"
+echo "S3 Bucket: $S3_BUCKET"
+echo "Ready to accept connections..."
+exec $@

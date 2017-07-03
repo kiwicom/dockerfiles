@@ -1,4 +1,4 @@
-FROM node:7-slim
+FROM node:8-slim
 
 RUN apt-get -y update \
   && apt-get -y install git libgtk2.0-0 libnotify4 libnotify-dev libgconf-2-4 libnss3 libxss1 xvfb \

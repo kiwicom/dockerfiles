@@ -1,5 +1,6 @@
 FROM node:8-slim
 
+ENV CYPRESS_VERSION=0.19.4
 ENV CYPRESS_BINARY_VERSION=0.19.4
 
 RUN apt-get -y update \

@@ -1,4 +1,4 @@
-FROM node:8-alpine
+FROM node:9-alpine
 
 RUN yarn global add nsp
 

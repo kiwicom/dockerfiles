@@ -5,6 +5,40 @@ This is a collection of Dockerfiles maintained by the [Kiwi.com Platform Team](h
 The images are built automatically by Docker Hub for the `:latest` tag,
 with updates of the base image triggering rebuilds.
 
+## kiwicom/black
+
+- Base image: `python:3.6-alpine3.7`
+- Packages: [`black`](https://github.com/ambv/black/)
+
+Image used to format python code using [`pre-commit`](https://pre-commit.com) hooks and to check if all the files are correctly formatted on CI.
+
+`pre-commit` hook example:
+
+```yaml
+- repo: local
+  hooks:
+    - id: black
+      name: black-code-formatter
+      language: docker_image
+      entry: --entrypoint black kiwicom/black:18.6b4
+      types: [python]
+```
+
+GitLab CI example:
+
+```yaml
+code-format:
+  stage: build
+  image: kiwicom/black:18.6b4
+  script:
+    - black --check .
+```
+
+CLI usage example:
+
+`docker run -ti -v "$(pwd)":/src -v "$(pwd)/.blackcache":/home/black/.cache --workdir=/src kiwicom/black:18.6b4 black .`
+
+
 ## kiwicom/curl
 
 - Base image: `alpine:3.6`

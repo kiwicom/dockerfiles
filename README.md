@@ -55,6 +55,13 @@ This is a copy of [clockworksoul's docker-gc-cron](https://github.com/clockworks
 
 Requires the `/var/run/docker.sock` socket mounted.
 
+## kiwicom/docker-pyenv
+
+- Base image `alpine:3.7`
+- Packages: [`pyenv`](https://github.com/pyenv/pyenv) and its dependencies
+
+This is a docker container that instead of providing a python binary allows installing multiple python versions.
+
 ## kiwicom/elasticsearch-icu
 
 - Base image: `docker.elastic.co/elasticsearch/elasticsearch:5.2.2`
@@ -88,7 +95,7 @@ We use this mostly to programmatically create stacks in Rancher.
 - Base image: `alpine:3.5`
 - Packages: OpenSSH server, `s3fs` 1.82 and dependencies
 
-This is a pretty cool image. :snowman: It's a containerized SFTP server with S3 as a backend for storage. 
+This is a pretty cool image. :snowman: It's a containerized SFTP server with S3 as a backend for storage.
 
 Check the `entrypoint` file to see how it works.
 

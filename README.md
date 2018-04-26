@@ -55,6 +55,13 @@ This is a copy of [clockworksoul's docker-gc-cron](https://github.com/clockworks
 
 Requires the `/var/run/docker.sock` socket mounted.
 
+## kiwicom/docker-tox
+
+- Base image: `kiwicom/docker-pyenv`
+- Packages: `tox` and python 2.7.14, 3.4.8, 3.5.5, 3.6.5
+
+This is a container that allows running tox tests on multiple python versions.
+
 ## kiwicom/elasticsearch-icu
 
 - Base image: `docker.elastic.co/elasticsearch/elasticsearch:5.2.2`
@@ -88,7 +95,7 @@ We use this mostly to programmatically create stacks in Rancher.
 - Base image: `alpine:3.5`
 - Packages: OpenSSH server, `s3fs` 1.82 and dependencies
 
-This is a pretty cool image. :snowman: It's a containerized SFTP server with S3 as a backend for storage. 
+This is a pretty cool image. :snowman: It's a containerized SFTP server with S3 as a backend for storage.
 
 Check the `entrypoint` file to see how it works.
 

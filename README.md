@@ -88,7 +88,7 @@ We use this mostly to programmatically create stacks in Rancher.
 - Base image: `alpine:3.5`
 - Packages: OpenSSH server, `s3fs` 1.82 and dependencies
 
-This is a pretty cool image. :snowman: It's a containerized SFTP server with S3 as a backend for storage. 
+This is a pretty cool image. :snowman: It's a containerized SFTP server with S3 as a backend for storage.
 
 Check the `entrypoint` file to see how it works.
 
@@ -108,3 +108,10 @@ Like above, but no docker.
 ## kiwicom/s4cmd-plus-docker
 
 Like above, but s4cmd instead of s3cmd
+
+## kiwicom/tox
+
+- Base image `alpine:3.7`
+- Packages: `tox`, [`pyenv`](https://github.com/pyenv/pyenv) and its dependencies
+
+Image that allows running tox tests on multiple python versions.

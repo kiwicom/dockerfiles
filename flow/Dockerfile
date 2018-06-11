@@ -1,6 +1,6 @@
 FROM alpine:3.6
 
-ENV FLOW_VERSION=0.57.3
+ENV FLOW_VERSION=0.71.0
 
 RUN apk --no-cache --virtual=.build-deps add openssl ca-certificates && \
     update-ca-certificates && \

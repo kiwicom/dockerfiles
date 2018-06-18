@@ -115,3 +115,10 @@ Like above, but s4cmd instead of s3cmd
 - Packages: `tox`, [`pyenv`](https://github.com/pyenv/pyenv) and its dependencies
 
 Image that allows running tox tests on multiple python versions.
+
+## kiwicom/ansible
+
+- Base image `python:3.6-alpine3.7`
+- Packages: CA certificates, ansible
+
+We use this in CI to run Ansible playbooks.

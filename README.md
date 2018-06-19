@@ -109,6 +109,16 @@ Like above, but no docker.
 
 Like above, but s4cmd instead of s3cmd
 
+## kiwicom/sonar-scanner
+
+- Base image: `openjdk:8-jre-alpine`
+- Packages: `sonar-scanner`
+
+We use this to scan code for SonarQube. It assumes it's running on GitLab CI.
+
+Usage: `$ scan list,of,dirs` or `$ preview list,of,dirs` for preview mode.
+Requires setting `SONARQUBE_URL`
+
 ## kiwicom/tox
 
 - Base image `alpine:3.7`

@@ -1,0 +1,12 @@
+#!/bin/bash
+echo This is a wrapper for \`$ sonar-scanner\` with default arguments to run in GitLab CI
+echo It takes one argument: a comma-separated of directories to check, such as: \`$ scan kw,cron,scripts\`
+echo If you want to customize it, run \`$ sonar-scanner \<your-arguments\>\` instead.
+
+exec sonar-scanner \
+    -Dsonar.projectVersion=$CI_JOB_ID \
+    -Dsonar.host.url=$SONARQUBE_URL \
+    -Dsonar.login=$SONARQUBE_TOKEN \
+    -Dsonar.projectKey=$CI_PROJECT_NAMESPACE:$CI_PROJECT_NAME \
+    -Dsonar.sources="$1" \
+    ${@:2}

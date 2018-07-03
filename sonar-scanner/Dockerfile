@@ -2,7 +2,7 @@ FROM openjdk:8-jre-alpine
 
 ENV VERSION=3.2.0.1227 \
     PATH=$PATH:/opt/sonar-scanner/bin
-RUN apk add --no-cache --virtual=.run-deps bash ca-certificates && \
+RUN apk add --no-cache --virtual=.run-deps bash ca-certificates git && \
     apk add --no-cache --virtual=.build-deps wget && \
     wget -O /tmp/sonar.zip https://sonarsource.bintray.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-$VERSION-linux.zip && \
     unzip /tmp/sonar.zip -d /tmp && \
@@ -15,4 +15,4 @@ RUN apk add --no-cache --virtual=.run-deps bash ca-certificates && \
 COPY bin/* /usr/local/bin/
 
 LABEL name=sonar-scanner version=$VERSION \
-      maintainer="Simone Esposito <simone@kiwi.com>"
+      maintainer="Bence Nagy <bence@kiwi.com>"

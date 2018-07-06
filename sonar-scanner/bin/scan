@@ -13,6 +13,7 @@ exec sonar-scanner \
     -Dsonar.projectKey="${CI_PROJECT_PATH//\//:}" \
     -Dsonar.projectVersion="$CI_JOB_ID" \
     -Dsonar.sources="$1" \
+    -Dsonar.branch.name="$CI_COMMIT_REF_NAME" \
     -Dsonar.links.homepage="$CI_PROJECT_URL" \
     -Dsonar.links.ci="$CI_PROJECT_URL/pipelines" \
     -Dsonar.links.issue="$CI_PROJECT_URL/issues" \

@@ -5,6 +5,13 @@ This is a collection of Dockerfiles maintained by the [Kiwi.com Platform Team](h
 The images are built automatically by Docker Hub for the `:latest` tag,
 with updates of the base image triggering rebuilds.
 
+## kiwicom/ansible
+
+- Base image `python:3.6-alpine3.7`
+- Packages: CA certificates, ansible
+
+We use this in CI to run Ansible playbooks.
+
 ## kiwicom/black
 
 - Base image: `python:3.6-alpine3.7`
@@ -143,6 +150,12 @@ Like above, but no docker.
 
 Like above, but s4cmd instead of s3cmd
 
+## kiwicom/sonarqube
+
+Because of the bug [SONAR-9384](https://jira.sonarsource.com/browse/SONAR-9384) we were experiencing many problems in our CI pipelines so we needed to upgrade our Sonarqube docker image. As Sonarqube [doesn't offer](https://community.sonarsource.com/t/sonarqube-7-2-released/302) a docker image for 7.2 we decided to build or own.
+
+The usage is the same as with the [official](https://hub.docker.com/_/sonarqube/) image
+
 ## kiwicom/sonar-scanner
 
 - Base image: `openjdk:8-jre-alpine`
@@ -159,10 +172,3 @@ Requires setting `SONARQUBE_URL`
 - Packages: `tox`, [`pyenv`](https://github.com/pyenv/pyenv) and its dependencies
 
 Image that allows running tox tests on multiple python versions.
-
-## kiwicom/ansible
-
-- Base image `python:3.6-alpine3.7`
-- Packages: CA certificates, ansible
-
-We use this in CI to run Ansible playbooks.

@@ -152,7 +152,10 @@ Like above, but s4cmd instead of s3cmd
 
 ## kiwicom/sonarqube
 
-Because of the bug [SONAR-9384](https://jira.sonarsource.com/browse/SONAR-9384) we were experiencing many problems in our CI pipelines so we needed to upgrade our Sonarqube docker image. As Sonarqube [doesn't offer](https://community.sonarsource.com/t/sonarqube-7-2-released/302) a docker image for 7.2 we decided to build or own.
+- Base image: `openjdk:8-alpine`
+- Packages: `sonarqube-developer`
+
+Because of the bug [SONAR-9384](https://jira.sonarsource.com/browse/SONAR-9384) we were experiencing many problems in our CI pipelines so we needed to upgrade our Sonarqube docker image. As Sonarqube [doesn't offer](https://community.sonarsource.com/t/sonarqube-7-2-released/302) a docker image for 7.2 we decided to build our own.
 
 The usage is the same as with the [official](https://hub.docker.com/_/sonarqube/) image
 

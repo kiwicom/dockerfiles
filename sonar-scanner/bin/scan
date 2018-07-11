@@ -7,8 +7,6 @@ echo It takes one argument: a comma-separated of directories to check, such as: 
 echo If you want to customize it, run \`$ sonar-scanner \<your-arguments\>\` instead.
 echo
 
-NEW_COMMIT_SHAS=$(git log --pretty=format:%H master..$CI_COMMIT_SHA | tr '\n' ',')
-
 exec sonar-scanner \
     -Dsonar.host.url="$SONARQUBE_URL" \
     -Dsonar.login="$SONARQUBE_TOKEN" \
@@ -19,7 +17,4 @@ exec sonar-scanner \
     -Dsonar.links.homepage="$CI_PROJECT_URL" \
     -Dsonar.links.ci="$CI_PROJECT_URL/pipelines" \
     -Dsonar.links.issue="$CI_PROJECT_URL/issues" \
-    -Dsonar.gitlab.project_id="$CI_PROJECT_ID" \
-    -Dsonar.gitlab.commit_sha="${NEW_COMMIT_SHAS:-$CI_COMMIT_SHA}" \
-    -Dsonar.gitlab.ref_name="$CI_COMMIT_REF_NAME" \
     ${@:2}

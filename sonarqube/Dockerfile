@@ -1,13 +1,13 @@
 FROM openjdk:8-alpine
 
-LABEL name=black version=dev \
-      maintainer="Alex Viscreanu <aexvir@kiwi.com>"
-
 ENV SONAR_VERSION=7.2.1 \
     SONARQUBE_HOME=/opt/sonarqube \
     SONARQUBE_JDBC_USERNAME=sonar \
     SONARQUBE_JDBC_PASSWORD=sonar \
     SONARQUBE_JDBC_URL=
+
+LABEL name=sonarqube version=$SONAR_VERSION \
+    maintainer="Alex Viscreanu <aexvir@kiwi.com>"
 
 EXPOSE 9000
 

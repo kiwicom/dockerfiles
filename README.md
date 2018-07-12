@@ -150,6 +150,13 @@ Like above, but no docker.
 
 Like above, but s4cmd instead of s3cmd
 
+## kiwicom/sentry
+
+- Base image: [`sentry`](https://hub.docker.com/_/sentry/)
+- Packages: [`sentry-auth-gitlab`](https://github.com/SkyLothar/sentry-auth-gitlab), [`datadog`](https://github.com/DataDog/datadogpy)
+
+Our own [`sentry`](https://github.com/getsentry/sentry) image. With GitLab SSO support
+
 ## kiwicom/sonarqube
 
 - Base image: `openjdk:8-alpine`

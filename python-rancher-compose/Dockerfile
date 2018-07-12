@@ -9,6 +9,6 @@ RUN pip install pyyaml requests && \
     mv /tmp/rancher-compose-${RANCHER_COMPOSE_VERSION}/rancher-compose /usr/local/bin/rancher-compose && \
     chmod +x /usr/local/bin/rancher-compose
 
-LABEL name=python-rancher-compose version=$RANCHER_COMPOSE_VERSION \
-      maintainer="Simone Esposito <simone@kiwi.com>"
 CMD [ "python3" ]
+LABEL name=python-rancher-compose version=$RANCHER_COMPOSE_VERSION \
+    maintainer="Simone Esposito <simone@kiwi.com>"

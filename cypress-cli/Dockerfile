@@ -10,7 +10,6 @@ RUN apt-get -y update \
   && cypress verify \
   && rm -rf /var/lib/apt/lists/* /var/apt/cache/* /tmp/*
 
-LABEL name=cypress-cli version=dev \
-      maintainer="Simone Esposito <simone@kiwi.com>"
-
 CMD ['cypress', 'run']
+LABEL name=cypress-cli version=dev \
+  maintainer="Simone Esposito <simone@kiwi.com>"

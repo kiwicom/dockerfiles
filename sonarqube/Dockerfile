@@ -40,3 +40,5 @@ WORKDIR $SONARQUBE_HOME
 COPY run.sh $SONARQUBE_HOME/bin/
 RUN chmod +x $SONARQUBE_HOME/bin/run.sh
 ENTRYPOINT ["./bin/run.sh"]
+LABEL name=sonarqube version=$SONAR_VERSION \
+    maintainer="Alex Viscreanu <aexvir@kiwi.com>"

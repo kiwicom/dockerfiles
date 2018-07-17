@@ -3,7 +3,7 @@ FROM sentry:9.0.0
 ENV SENTRY_VERSION=9.0
 
 RUN apt-get update && apt-get -y install python-dev libldap2-dev libsasl2-dev libssl-dev && \
-    pip install sentry-auth-gitlab==0.1.0 datadog==0.17.0 && \
+    pip install datadog==0.17.0 https://github.com/underyx/sentry-auth-gitlab/archive/363f54094849d3b3ee25dad6781dc700bcfcd986.zip && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 

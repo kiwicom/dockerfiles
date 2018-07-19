@@ -45,7 +45,6 @@ CLI usage example:
 
 `docker run -ti -v "$(pwd)":/src -v "$(pwd)/.blackcache":/home/black/.cache --workdir=/src kiwicom/black:18.6b4 black .`
 
-
 ## kiwicom/curl
 
 - Base image: `alpine:3.6`
@@ -109,6 +108,39 @@ We use this for integration tests in CI, as a GitLab CI service.
 - Packages: facebook's `flow`, and its dependencies
 
 We use this in CI to check JavaScript code's type correctness, mounting code to `/app` and running `flow check --show-all-errors`.
+
+## kiwicom/mypy
+
+- Base image: `python:3.7-alpine3.8`
+- Packages: [`mypy`](http://www.mypy-lang.org/)
+
+Image used to type-check python code using [`pre-commit`](https://pre-commit.com) hooks and in CI.
+
+`pre-commit` hook example:
+
+```yaml
+- repo: local
+  hooks:
+    - id: mypy
+      name: mypy-type-checks
+      language: docker_image
+      entry: --entrypoint mypy kiwicom/mypy:0.620
+      types: [python]
+```
+
+GitLab CI example:
+
+```yaml
+type-checks:
+  stage: build
+  image: kiwicom/mypy:0.620
+  script:
+    - mypy -p kw
+```
+
+CLI usage example:
+
+`docker run -ti -v "$(pwd)":/src --workdir=/src kiwicom/mypy:0.620 mypy -p kw`
 
 ## kiwicom/nodesecurity
 

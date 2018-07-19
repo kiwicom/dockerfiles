@@ -1,0 +1,18 @@
+init_config:
+
+instances:
+  # - prometheus_url: http://gitlab:9236/metrics
+  #   namespace: "gitlab.gitaly"
+  #   metrics:
+  - prometheus_url: http://gitlab-ci:9252/metrics
+    namespace: "gitlab.ci"
+    metrics: ["gitlab_runner*"]
+  # - prometheus_url: http://gitlab:8082/metrics
+  #   namespace: "gitlab.sidekiq"
+  #   metrics:
+  - prometheus_url: http://gitlab:8080/-/metrics
+    namespace: "gitlab.unicorn"
+    metrics: ["*"]
+  # - prometheus_url: http://gitlab:9100/metrics
+  #   namespace: "gitlab.node"
+  #   metrics:

@@ -109,6 +109,12 @@ We use this for integration tests in CI, as a GitLab CI service.
 
 We use this in CI to check JavaScript code's type correctness, mounting code to `/app` and running `flow check --show-all-errors`.
 
+## kiwicom/gitlab-datadog-agent
+
+- Base image: `datadog/agent:6.3.3`
+
+A Datadog Agent image that collects metrics exposed by GitLab and GitLab CI.
+
 ## kiwicom/mypy
 
 - Base image: `python:3.7-alpine3.8`

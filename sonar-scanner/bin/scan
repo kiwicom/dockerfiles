@@ -1,0 +1,38 @@
+#!/bin/bash
+echo
+echo kiwicom/sonar-scanner • scan mode
+echo =================================
+echo This is a wrapper for \`$ sonar-scanner\` with default arguments to run in GitLab CI
+echo It takes one argument: a comma-separated of directories to check, such as: \`$ scan kw,cron,scripts\`
+echo If you want to customize it, run \`$ sonar-scanner \<your-arguments\>\` instead.
+echo
+
+sonar-scanner \
+    -Dsonar.host.url="$SONARQUBE_URL" \
+    -Dsonar.login="$SONARQUBE_TOKEN" \
+    -Dsonar.projectKey="${CI_PROJECT_PATH//\//:}" \
+    -Dsonar.projectVersion="$CI_JOB_ID" \
+    -Dsonar.sources="$1" \
+    -Dsonar.branch.name="$CI_COMMIT_REF_NAME" \
+    -Dsonar.links.homepage="$CI_PROJECT_URL" \
+    -Dsonar.links.ci="$CI_PROJECT_URL/pipelines" \
+    -Dsonar.links.issue="$CI_PROJECT_URL/issues" \
+    ${@:2} \
+    2> >(tee -a /tmp/sonar-scanner-errors >&2)
+
+if grep -q 'A regular analysis is required before a branch analysis' /tmp/sonar-scanner-errors; then
+    echo
+    echo "Oh, so this is the first time I'm running here!"
+    echo "Let me try again with a different kind of scan to create your project."
+    echo
+    sonar-scanner \
+        -Dsonar.host.url="$SONARQUBE_URL" \
+        -Dsonar.login="$SONARQUBE_TOKEN" \
+        -Dsonar.projectKey="${CI_PROJECT_PATH//\//:}" \
+        -Dsonar.projectVersion="$CI_JOB_ID" \
+        -Dsonar.sources="$1" \
+        -Dsonar.links.homepage="$CI_PROJECT_URL" \
+        -Dsonar.links.ci="$CI_PROJECT_URL/pipelines" \
+        -Dsonar.links.issue="$CI_PROJECT_URL/issues" \
+        ${@:2}
+fi

@@ -5,6 +5,46 @@ This is a collection of Dockerfiles maintained by the [Kiwi.com Platform Team](h
 The images are built automatically by Docker Hub for the `:latest` tag,
 with updates of the base image triggering rebuilds.
 
+## kiwicom/ansible
+
+- Base image `python:3.6-alpine3.7`
+- Packages: CA certificates, ansible
+
+We use this in CI to run Ansible playbooks.
+
+## kiwicom/black
+
+- Base image: `python:3.6-alpine3.7`
+- Packages: [`black`](https://github.com/ambv/black/)
+
+Image used to format python code using [`pre-commit`](https://pre-commit.com) hooks and to check if all the files are correctly formatted on CI.
+
+`pre-commit` hook example:
+
+```yaml
+- repo: local
+  hooks:
+    - id: black
+      name: black-code-formatter
+      language: docker_image
+      entry: --entrypoint black kiwicom/black:18.6b4
+      types: [python]
+```
+
+GitLab CI example:
+
+```yaml
+code-format:
+  stage: build
+  image: kiwicom/black:18.6b4
+  script:
+    - black --check .
+```
+
+CLI usage example:
+
+`docker run -ti -v "$(pwd)":/src -v "$(pwd)/.blackcache":/home/black/.cache --workdir=/src kiwicom/black:18.6b4 black .`
+
 ## kiwicom/curl
 
 - Base image: `alpine:3.6`
@@ -69,6 +109,39 @@ We use this for integration tests in CI, as a GitLab CI service.
 
 We use this in CI to check JavaScript code's type correctness, mounting code to `/app` and running `flow check --show-all-errors`.
 
+## kiwicom/mypy
+
+- Base image: `python:3.7-alpine3.8`
+- Packages: [`mypy`](http://www.mypy-lang.org/)
+
+Image used to type-check python code using [`pre-commit`](https://pre-commit.com) hooks and in CI.
+
+`pre-commit` hook example:
+
+```yaml
+- repo: local
+  hooks:
+    - id: mypy
+      name: mypy-type-checks
+      language: docker_image
+      entry: --entrypoint mypy kiwicom/mypy:0.620
+      types: [python]
+```
+
+GitLab CI example:
+
+```yaml
+type-checks:
+  stage: build
+  image: kiwicom/mypy:0.620
+  script:
+    - mypy -p kw
+```
+
+CLI usage example:
+
+`docker run -ti -v "$(pwd)":/src --workdir=/src kiwicom/mypy:0.620 mypy -p kw`
+
 ## kiwicom/nodesecurity
 
 - Base image: `node:9-alpine`
@@ -108,6 +181,32 @@ Like above, but no docker.
 ## kiwicom/s4cmd-plus-docker
 
 Like above, but s4cmd instead of s3cmd
+
+## kiwicom/sentry
+
+- Base image: [`sentry`](https://hub.docker.com/_/sentry/)
+- Packages: [`sentry-auth-gitlab`](https://github.com/SkyLothar/sentry-auth-gitlab), [`datadog`](https://github.com/DataDog/datadogpy)
+
+Our own [`sentry`](https://github.com/getsentry/sentry) image. With GitLab SSO support
+
+## kiwicom/sonarqube
+
+- Base image: `openjdk:8-alpine`
+- Packages: `sonarqube-developer`
+
+Because of the bug [SONAR-9384](https://jira.sonarsource.com/browse/SONAR-9384) we were experiencing many problems in our CI pipelines so we needed to upgrade our Sonarqube docker image. As Sonarqube [doesn't offer](https://community.sonarsource.com/t/sonarqube-7-2-released/302) a docker image for 7.2 we decided to build our own.
+
+The usage is the same as with the [official](https://hub.docker.com/_/sonarqube/) image
+
+## kiwicom/sonar-scanner
+
+- Base image: `openjdk:8-jre-alpine`
+- Packages: `sonar-scanner`
+
+We use this to scan code for SonarQube. It assumes it's running on GitLab CI.
+
+Usage: `$ scan list,of,dirs` or `$ preview list,of,dirs` for preview mode.
+Requires setting `SONARQUBE_URL`
 
 ## kiwicom/tox
 

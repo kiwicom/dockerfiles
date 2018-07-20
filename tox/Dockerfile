@@ -19,7 +19,6 @@ RUN apk add --no-cache --virtual=.build-deps curl git linux-headers openssl-dev 
     find /root/.pyenv/versions -type d '(' -name '__pycache__' -o -name 'test' -o -name 'tests' ')' -exec rm -rfv '{}' + && \
     find /root/.pyenv/versions -type f '(' -name '*.py[co]' -o -name '*.exe' ')' -exec rm -fv '{}' +
 
-LABEL name=tox version=dev \
-      maintainer="Alex Viscreanu aexvir@kiwi.com"
-
 CMD ["tox"]
+LABEL name=tox version=dev \
+    maintainer="Alex Viscreanu aexvir@kiwi.com"

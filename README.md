@@ -142,6 +142,12 @@ CLI usage example:
 
 `docker run -ti -v "$(pwd)":/src --workdir=/src kiwicom/mypy:0.620 mypy -p kw`
 
+## kiwicom/nginx-301-https
+
+- Base image: `nginx:alpine`
+
+We use this to redirect http to https in Rancher.
+
 ## kiwicom/nodesecurity
 
 - Base image: `node:9-alpine`

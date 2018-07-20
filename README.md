@@ -168,6 +168,12 @@ We use this in CI to check security issues of Node.js dependencies.
 
 We use this mostly to programmatically create stacks in Rancher.
 
+## kiwicom/rancher-reaper
+
+- Base image: `ruby:2-alpine`
+
+This is a Docker service which automatically deletes hosts from Rancher if they have been terminated in AWS.
+
 ## kiwicom/s3-sftp
 
 - Base image: `alpine:3.5`

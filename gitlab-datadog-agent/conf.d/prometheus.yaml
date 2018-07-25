@@ -1,18 +1,39 @@
 init_config:
 
 instances:
-  # - prometheus_url: http://gitlab:9236/metrics
-  #   namespace: "gitlab.gitaly"
-  #   metrics:
+  # https://docs.gitlab.com/ee/administration/monitoring/prometheus/gitlab_metrics.html
+  # - prometheus_url: http://gitlab:8080/-/metrics
+  #   namespace: "gitlab.unicorn"
+  #   metrics: []
+
+  # gitlab_monitor['listen_address'] = '0.0.0.0'
+  - prometheus_url: http://gitlab:9168/database
+    namespace: "gitlab.db"
+    metrics: ["*"]
+  - prometheus_url: http://gitlab:9168/process
+    namespace: "gitlab.process"
+    metrics: ["*"]
+  - prometheus_url: http://gitlab:9168/sidekiq
+    namespace: "gitlab.sidekiq"
+    metrics: ["*"]
+
+  # gitlab_workhorse['prometheus_listen_addr'] = "0.0.0.0:9229"
+  - prometheus_url: http://gitlab:9229/metrics
+    namespace: "gitlab.workhorse"
+    metrics: ["gitlab_workhorse*"]
+
+  # https://gitlab.com/gitlab-org/gitlab-pages/#enable-prometheus-metric
+  # gitlab_pages['metrics_address'] = ":9235"
+  # - prometheus_url: http://gitlab:9235/metrics
+  #   namespace: "gitlab.pages"
+  #   metrics: []
+
+  # gitaly['prometheus_listen_addr'] = "0.0.0.0:9236"
+  - prometheus_url: http://gitlab:9236/metrics
+    namespace: "gitlab.gitaly"
+    metrics: ["gitaly*"]
+
+  # https://docs.gitlab.com/runner/monitoring/#embedded-prometheus-metrics
   - prometheus_url: http://gitlab-ci:9252/metrics
     namespace: "gitlab.ci"
     metrics: ["gitlab_runner*"]
-  # - prometheus_url: http://gitlab:8082/metrics
-  #   namespace: "gitlab.sidekiq"
-  #   metrics:
-  - prometheus_url: http://gitlab:8080/-/metrics
-    namespace: "gitlab.unicorn"
-    metrics: ["*"]
-  # - prometheus_url: http://gitlab:9100/metrics
-  #   namespace: "gitlab.node"
-  #   metrics:

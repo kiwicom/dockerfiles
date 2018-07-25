@@ -7,6 +7,9 @@ echo It takes one argument: a comma-separated of directories to check, such as: 
 echo If you want to customize it, run \`$ sonar-scanner \<your-arguments\>\` instead.
 echo
 
+echo "sonar-scanner's output"
+echo "======================="
+
 sonar-scanner \
     -Dsonar.host.url="$SONARQUBE_URL" \
     -Dsonar.login="$SONARQUBE_TOKEN" \
@@ -22,9 +25,14 @@ sonar-scanner \
 
 if grep -q 'A regular analysis is required before a branch analysis' /tmp/sonar-scanner-errors; then
     echo
+    echo kiwicom/sonar-scanner
+    echo =====================
+    echo
     echo "Oh, so this is the first time I'm running here!"
     echo "Let me try again with a different kind of scan to create your project."
     echo
+    echo "sonar-scanner's output"
+    echo "======================="
     sonar-scanner \
         -Dsonar.host.url="$SONARQUBE_URL" \
         -Dsonar.login="$SONARQUBE_TOKEN" \

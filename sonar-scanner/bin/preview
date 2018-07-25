@@ -3,8 +3,9 @@ echo
 echo kiwicom/sonar-scanner • preview mode
 echo ====================================
 echo This is a wrapper for \`$ sonar-scanner\` with default arguments to run in GitLab CI
-echo It takes one argument: a comma-separated of directories to check, such as: \`$ preview kw,cron,scripts\`
-echo If you want to customize it, run \`$ sonar-scanner \<your-arguments\>\` instead.
+echo It takes one argument: a comma-separated list of directories to check, such as: \`$ preview kw,test\`
+echo If you want to customize it, add your extra arguments at the end.
+echo The \`sonar-scanner\` binary is also available for fully customized usage.
 echo
 
 echo "sonar-scanner's output"

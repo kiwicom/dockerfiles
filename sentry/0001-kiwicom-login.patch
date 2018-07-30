@@ -87,9 +87,9 @@
 -            <input type="text" class="form-control" name="organization" placeholder="acme" required>
 -            <p class="help-block">Enter your organization's ID and we'll get things started.</p>
 -            <p class="help-block">Your ID is the reference used when Sentry generates URLs.<br />e.g. <code>{{ server_hostname }}/<strong>acme</strong>/</code></p>
-+            <input type="text" class="form-control" name="organization" placeholder="acme" value="kiwicom" required>
-+            <p class="help-block">Just leave this at the default value of 'kiwicom'.</p>
-+            <p class="help-block">(Unless you got special instructions from Platform Team.)</p>
++            <input type="text" class="form-control" name="organization" placeholder="acme" value="kiwicom" required disabled>
++            <p class="help-block">Just click <em>Continue</em>, even if Platform gave you an own organization.</p>
++            <p class="help-block">(You will be able to switch to a different organization after login.)</p>
            </div>
          </div>
          <div class="form-actions" style="margin-top: 25px">

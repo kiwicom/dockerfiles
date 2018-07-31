@@ -8,7 +8,7 @@ RUN apt-get update && apt-get -y install python-dev libldap2-dev libsasl2-dev li
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 COPY *.patch /tmp/
-RUN patch --unified --directory=/usr/local/lib/python2.7/site-packages/sentry/templates/sentry < /tmp/0001-kiwicom-login.patch
+RUN patch --strip=0 --unified --directory=/usr/local/lib/python2.7/site-packages/sentry < /tmp/0001-kiwicom-login.patch
 
 COPY sentry.conf.py /etc/sentry/sentry.conf.py
 

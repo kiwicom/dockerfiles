@@ -1,95 +1,33 @@
---- templates/sentry/login.html	2018-07-25 17:32:55.000000000 +0200
-+++ templates/sentry/login.html	2018-07-25 17:41:14.000000000 +0200
-@@ -12,77 +12,13 @@
-   {% endif %}
-
-   <ul class="nav nav-tabs auth-toggle border-bottom">
--    <li{% if op == "login" %} class="active"{% endif %}>
--      <a href="#login" data-toggle="tab">{% trans "Login" %}</a>
--    </li>
--    {% if CAN_REGISTER %}
--      <li{% if op == "register" %} class="active"{% endif %}>
--        <a href="#register" data-toggle="tab">{% trans "Register" %}</a>
--      </li>
--    {% endif %}
--    <li{% if op == "sso" %} class="active"{% endif %}>
-+    <li class="active">
-       <a href="#sso" data-toggle="tab">{% trans "Single Sign-On" %}</a>
-     </li>
-   </ul>
-
-   <div class="tab-content">
--    <div class="tab-pane{% if op == "login" %} active{% endif %}" id="login">
--      <form class="form-stacked" action="" method="post" autocomplete="off">
--        {% csrf_token %}
--
--        <input type="hidden" name="op" value="login" />
--
--        {{ login_form|as_crispy_errors }}
--
--        {% for field in login_form %}
--          {{ field|as_crispy_field }}
--        {% endfor %}
--
--        <fieldset class="form-actions">
--          <button type="submit" class="btn btn-primary">{% trans "Continue" %}</button> <a class="pull-right" style="margin-top: 7px" href="{% url 'sentry-account-recover' %}">{% trans "Lost your password?" %}</a>
--        </fieldset>
--      </form>
--    </div>
--    <div class="tab-pane{% if op == "register" %} active{% endif %}" id="register">
--      <form class="form-stacked" action="" method="post" autocomplete="off">
--        {% csrf_token %}
--
--        <input type="hidden" name="op" value="register" />
--
--        {{ register_form|as_crispy_errors }}
--
--        {% for field in register_form %}
--          {% if not field.name == 'subscribe' %}
--            {{ field|as_crispy_field }}
--          {% endif %}
--        {% endfor %}
--
--        {% if register_form.subscribe %}
--          {% with register_form.subscribe as field %}
--            <fieldset class="{% if field.errors %}is-invalid{% endif %} boolean-radio-select">
--              <label> {{ field.label }}</label>
--              <div class="help-block">{{ field.help_text }}</div>
--              <div class="inputs-list radio">
--                {{ field }}
--                {% if field.errors %}
--                  {% for error in field.errors %}
--                    <p class="form-text"><small>{{ error }}</small></p>
--                  {% endfor %}
--                {% endif %}
--              </div>
--            </fieldset>
--          {% endwith %}
--        {% endif %}
--
--        <fieldset class="form-actions">
--          <button type="submit" class="btn btn-primary">{% trans "Continue" %}</button>
--          <a class="pull-right" style="margin-top: 9px" href="https://sentry.io/privacy/" target="_blank">
--            {% trans "Privacy Policy" %}
--          </a>
--        </fieldset>
--      </form>
--    </div>
--    <div class="tab-pane{% if op == "sso" %} active{% endif %}" id="sso">
-+    <div class="tab-pane active" id="sso">
-       <form class="form-stacked" method="post">
-         {% csrf_token %}
-
-@@ -91,9 +27,9 @@
+--- templates/sentry/login.html 9.0.0
++++ templates/sentry/login.html kiwicom-login
+@@ -91,9 +91,9 @@
          <div class="control-group required">
            <div class="controls">
              <label class="control-label">{% trans "Organization ID" %}</label>
 -            <input type="text" class="form-control" name="organization" placeholder="acme" required>
 -            <p class="help-block">Enter your organization's ID and we'll get things started.</p>
 -            <p class="help-block">Your ID is the reference used when Sentry generates URLs.<br />e.g. <code>{{ server_hostname }}/<strong>acme</strong>/</code></p>
-+            <input type="text" class="form-control" name="organization" placeholder="acme" value="kiwicom" required>
++            <input type="text" class="form-control" name="organization" placeholder="kiwicom" value="kiwicom" required>
 +            <p class="help-block">Just click <em>Continue</em>, even if Platform gave you an own organization.</p>
-+            <p class="help-block">(You will be able to switch to a different organization after login.)</p>
++            <p class="help-block">(You can switch to a different organization after login.)</p>
            </div>
          </div>
          <div class="form-actions" style="margin-top: 25px">
+
+--- web/frontend/auth_login.py 9.0.0
++++ web/frontend/auth_login.py kiwicom-login
+@@ -136,12 +136,12 @@
+                 return self.redirect(auth.get_login_redirect(request))
+
+         context = {
+-            'op': op or 'login',
++            'op': op or 'sso',
+             'server_hostname': get_server_hostname(),
+             'login_form': login_form,
+             'organization': organization,
+             'register_form': register_form,
+-            'CAN_REGISTER': can_register,
++            'CAN_REGISTER': False,
+         }
+         return self.respond_login(request, context, organization=organization, *args, **kwargs)
+

@@ -18,4 +18,5 @@ exec sonar-scanner \
     -Dsonar.gitlab.project_id="$CI_PROJECT_ID" \
     -Dsonar.gitlab.commit_sha="${NEW_COMMIT_SHAS:-$CI_COMMIT_SHA}" \
     -Dsonar.gitlab.ref_name="$CI_COMMIT_REF_NAME" \
+    -Dsonar.gitlab.json_mode=CODECLIMATE \
     ${@:2}

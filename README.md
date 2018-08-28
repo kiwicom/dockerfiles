@@ -12,6 +12,13 @@ with updates of the base image triggering rebuilds.
 
 We use this in CI to run Ansible playbooks.
 
+## kiwicom/aws-cli
+
+- Base image: python:3.7-alpine3.8
+- Packages: python `awscli`
+
+We use this to use AWS cli from Docker.
+
 ## kiwicom/black
 
 - Base image: `python:3.6-alpine3.7`

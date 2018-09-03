@@ -1,4 +1,4 @@
-FROM alpine:3.7
+FROM alpine:3.8
 
 ENV PATH="$PATH:/root/.pyenv/bin:/root/.pyenv/shims"
 
@@ -10,9 +10,10 @@ RUN apk add --no-cache --virtual=.build-deps curl git linux-headers openssl-dev 
     pyenv install 3.4.8 && \
     pyenv install 3.5.5 && \
     pyenv install 3.6.5 && \
-    pyenv global 3.6.5 3.5.5 3.4.8 2.7.14 && \
+    pyenv install 3.7.0 && \
+    pyenv global 3.7.0 3.6.5 3.5.5 3.4.8 2.7.14 && \
     pyenv rehash && \
-    pip install tox==2.9.1 && \
+    pip install tox==3.2.1 && \
     apk del .build-deps && \
     rm -rf /var/cache/apk/* && \
     rm -rf /tmp/* && \

@@ -168,6 +168,14 @@ We use this to redirect http to https in Rancher.
 
 We use this in CI to check security issues of Node.js dependencies.
 
+## kiwicom/oauth2-proxy
+
+- Base image: `buildpack-deps:jessie-curl`
+
+We use this as reverse proxy that provides authentication with Gitlab or other provider.
+
+Source: https://github.com/chauffer/dockerfiles/tree/master/oauth2-proxy
+
 ## kiwicom/python-rancher-compose
 
 - Base image: `python:3.6-alpine`

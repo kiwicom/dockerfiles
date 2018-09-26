@@ -1,7 +1,7 @@
-FROM python:3.6-alpine3.7
+FROM python:3.7-alpine
 
 RUN addgroup -S black && adduser -D -S black black && \
-    pip install black==18.6b4 && \
+    pip install black==18.9b0 && \
     mkdir /src
 
 USER black

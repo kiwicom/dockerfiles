@@ -21,7 +21,7 @@ We use this to use AWS cli from Docker.
 
 ## kiwicom/black
 
-- Base image: `python:3.6-alpine3.7`
+- Base image: `python:3.7-alpine`
 - Packages: [`black`](https://github.com/ambv/black/)
 
 Image used to format python code using [`pre-commit`](https://pre-commit.com) hooks and to check if all the files are correctly formatted on CI.
@@ -34,7 +34,7 @@ Image used to format python code using [`pre-commit`](https://pre-commit.com) ho
     - id: black
       name: black-code-formatter
       language: docker_image
-      entry: --entrypoint black kiwicom/black:18.6b4
+      entry: --entrypoint black kiwicom/black:18.9b0
       types: [python]
 ```
 
@@ -43,14 +43,14 @@ GitLab CI example:
 ```yaml
 code-format:
   stage: build
-  image: kiwicom/black:18.6b4
+  image: kiwicom/black:18.9b0
   script:
     - black --check .
 ```
 
 CLI usage example:
 
-`docker run -ti -v "$(pwd)":/src -v "$(pwd)/.blackcache":/home/black/.cache --workdir=/src kiwicom/black:18.6b4 black .`
+`docker run -ti -v "$(pwd)":/src -v "$(pwd)/.blackcache":/home/black/.cache --workdir=/src kiwicom/black:18.9b0 black .`
 
 ## kiwicom/curl
 

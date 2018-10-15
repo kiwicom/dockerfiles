@@ -237,7 +237,7 @@ Requires setting `SONARQUBE_URL`
 
 ## kiwicom/tox
 
-- Base image `alpine:3.7`
+- Base image `alpine:3.8`
 - Packages: `tox`, [`pyenv`](https://github.com/pyenv/pyenv) and its dependencies
 
 Image that allows running tox tests on multiple python versions.

@@ -73,7 +73,30 @@ This is a container with [cypress.io](https://cypress.io) we use to automate our
 
 [goss](https://github.com/aelsabbahy/goss) is a tool for quick and easy server validation.
 
-We use it to, during CI, to start a container and test if it responds on a certain endpoint.
+We use in CI to to start a container and test if it responds on a certain endpoint.
+
+### `.misc/goss/goss.yaml` example
+
+```yaml
+http:
+  http://localhost/ping:
+    status: 200
+    timeout: 100  # milliseconds
+    body:
+      - pong
+```
+
+### `.gitlab-ci.yml` example
+
+```yaml
+goss:
+  image: kiwicom/dgoss
+  variables:
+    GOSS_FILES_PATH: .misc/goss
+    GOSS_FILES_STRATEGY: cp
+  script:
+    - docker pull $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA && dgoss run $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
+```
 
 ## kiwicom/docker-cleanup
 

@@ -10,11 +10,10 @@ RUN apk add --no-cache --virtual=.build-deps curl git linux-headers openssl-dev 
     pyenv install 3.4.8 && \
     pyenv install 3.5.5 && \
     pyenv install 3.6.5 && \
-    pyenv install 3.7.0 && \
-    pyenv global 3.7.0 3.6.5 3.5.5 3.4.8 2.7.14 && \
+    pyenv install 3.7.1 && \
+    pyenv global 3.7.1 3.6.5 3.5.5 3.4.8 2.7.14 && \
     pyenv rehash && \
-    pip install tox==3.5.0 && \
-    apk del .build-deps && \
+    pip install tox==3.5.3 && \
     rm -rf /var/cache/apk/* && \
     rm -rf /tmp/* && \
     find /root/.pyenv/versions -type d '(' -name '__pycache__' -o -name 'test' -o -name 'tests' ')' -exec rm -rfv '{}' + && \

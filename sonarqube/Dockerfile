@@ -1,32 +1,42 @@
 FROM openjdk:8-alpine
 
-ENV SONAR_VERSION=7.2.1 \
+ENV SONAR_VERSION=7.4 \
     SONARQUBE_HOME=/opt/sonarqube \
+    # Database configuration
+    # Defaults to using H2
+    # DEPRECATED. Use -v sonar.jdbc.username=... instead
+    # Drop these in the next release, also in the run script
     SONARQUBE_JDBC_USERNAME=sonar \
     SONARQUBE_JDBC_PASSWORD=sonar \
     SONARQUBE_JDBC_URL=
 
-LABEL name=sonarqube version=$SONAR_VERSION \
-    maintainer="Alex Viscreanu <aexvir@kiwi.com>"
-
+# Http port
 EXPOSE 9000
 
-RUN addgroup -S sonarqube && adduser -S -G sonarqube sonarqube
+RUN groupadd -r sonarqube && useradd -r -g sonarqube sonarqube
+
+# grab gosu for easy step-down from root
+RUN set -x \
+    && wget -O /usr/local/bin/gosu "https://github.com/tianon/gosu/releases/download/1.10/gosu-$(dpkg --print-architecture)" \
+    && wget -O /usr/local/bin/gosu.asc "https://github.com/tianon/gosu/releases/download/1.10/gosu-$(dpkg --print-architecture).asc" \
+    && export GNUPGHOME="$(mktemp -d)" \
+    && (gpg --batch --keyserver ha.pool.sks-keyservers.net --recv-keys B42F6819007F00F88E364FD4036A9C25BF357DD4 \
+    || gpg --batch --keyserver ipv4.pool.sks-keyservers.net --recv-keys B42F6819007F00F88E364FD4036A9C25BF357DD4) \
+    && gpg --batch --verify /usr/local/bin/gosu.asc /usr/local/bin/gosu \
+    && rm -rf "$GNUPGHOME" /usr/local/bin/gosu.asc \
+    && chmod +x /usr/local/bin/gosu \
+    && gosu nobody true
 
 RUN set -x \
-    && apk add --no-cache gnupg unzip \
-    && apk add --no-cache libressl wget \
-    && apk add --no-cache su-exec \
-    && apk add --no-cache bash \
-    # pub   rsa4096 2015-02-17 [SC]
-    #       8756 C4F7 65C9 AC3C B6B8  5D62 379C E192 D401 AB61
-    # uid           "Bintray (by JFrog) <bintray@bintray.com>"
-    # sub   rsa4096 2015-02-17 [E]
-    && gpg --keyserver ha.pool.sks-keyservers.net --recv-keys 8756C4F765C9AC3CB6B85D62379CE192D401AB61 \
-    && mkdir /opt \
+    # pub   2048R/D26468DE 2015-05-25
+    #       Key fingerprint = F118 2E81 C792 9289 21DB  CAB4 CFCA 4A29 D264 68DE
+    # uid                  sonarsource_deployer (Sonarsource Deployer) <infra@sonarsource.com>
+    # sub   2048R/06855C1D 2015-05-25
+    && (gpg --batch --keyserver ha.pool.sks-keyservers.net --recv-keys F1182E81C792928921DBCAB4CFCA4A29D26468DE \
+    || gpg --batch --keyserver ipv4.pool.sks-keyservers.net --recv-keys F1182E81C792928921DBCAB4CFCA4A29D26468DE) \
     && cd /opt \
-    && wget -O sonarqube.zip --no-verbose https://sonarsource.bintray.com/CommercialDistribution/sonarqube-developer/sonarqube-developer-$SONAR_VERSION.zip \
-    && wget -O sonarqube.zip.asc --no-verbose https://sonarsource.bintray.com/CommercialDistribution/sonarqube-developer/sonarqube-developer-$SONAR_VERSION.zip.asc \
+    && curl -o sonarqube.zip -fSL https://binaries.sonarsource.com/Distribution/sonarqube-developer/sonarqube-developer-$SONAR_VERSION.zip \
+    && curl -o sonarqube.zip.asc -fSL https://binaries.sonarsource.com/Distribution/sonarqube-developer/sonarqube-developer-$SONAR_VERSION.zip.asc \
     && gpg --batch --verify sonarqube.zip.asc sonarqube.zip \
     && unzip sonarqube.zip \
     && mv sonarqube-$SONAR_VERSION sonarqube \
@@ -38,7 +48,8 @@ VOLUME "$SONARQUBE_HOME/data"
 
 WORKDIR $SONARQUBE_HOME
 COPY run.sh $SONARQUBE_HOME/bin/
-RUN chmod +x $SONARQUBE_HOME/bin/run.sh
+USER sonarqube
 ENTRYPOINT ["./bin/run.sh"]
+
 LABEL name=sonarqube version=$SONAR_VERSION \
     maintainer="Alex Viscreanu <aexvir@kiwi.com>"

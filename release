@@ -13,9 +13,9 @@ _, image, *tags = sys.argv
 if not tags:
     tags = ['latest']
 
-subprocess.call([
+subprocess.check_call([
     'docker', 'build', image,
     *(f'--tag=kiwicom/{image}:{tag}' for tag in tags),
 ])
 for tag in tags:
-    subprocess.call(['docker', 'push', f'kiwicom/{image}:{tag}'])
+    subprocess.check_call(['docker', 'push', f'kiwicom/{image}:{tag}'])

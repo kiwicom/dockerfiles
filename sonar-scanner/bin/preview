@@ -7,7 +7,7 @@ echo It takes one argument: a comma-separated of directories to check, such as: 
 echo If you want to customize it, run \`$ sonar-scanner \<your-arguments\>\` instead.
 echo
 
-NEW_COMMIT_SHAS=$(git log --pretty=format:%H master..$CI_COMMIT_SHA | tr '\n' ',')
+NEW_COMMIT_SHAS=$(git log --pretty=format:%H ${CI_MERGE_REQUEST_TARGET_BRANCH:-master}..$CI_COMMIT_SHA | tr '\n' ',')
 
 exec sonar-scanner \
     -Dsonar.host.url="$SONARQUBE_URL" \

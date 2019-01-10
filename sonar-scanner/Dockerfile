@@ -1,6 +1,6 @@
 FROM openjdk:8-jre-alpine
 
-ENV VERSION=3.2.0.1227 \
+ENV VERSION=3.3.0.1492 \
     PATH=$PATH:/opt/sonar-scanner/bin
 
 RUN apk add --no-cache --virtual=.run-deps bash ca-certificates git nodejs python3 && \

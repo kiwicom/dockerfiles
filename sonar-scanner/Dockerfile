@@ -4,9 +4,9 @@ ENV VERSION=3.2.0.1227 \
     PATH=$PATH:/opt/sonar-scanner/bin
 
 RUN apk add --no-cache --virtual=.run-deps bash ca-certificates git nodejs python3 && \
-    apk add --no-cache --virtual=.build-deps wget && \
-    python3 -m pip install pylint && \
-    wget -O /tmp/sonar.zip https://sonarsource.bintray.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-$VERSION-linux.zip && \
+    apk add --no-cache --virtual=.build-deps build-base python3-dev unzip wget && \
+    python3 -m pip install pylint~=2.2.2 && \
+    wget -O /tmp/sonar.zip https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-$VERSION-linux.zip && \
     unzip /tmp/sonar.zip -d /tmp && \
     mkdir -p /opt/sonar-scanner && \
     cp -R /tmp/sonar-scanner-$VERSION-linux/* /opt/sonar-scanner/ && \

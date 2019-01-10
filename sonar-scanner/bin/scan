@@ -33,7 +33,7 @@ if grep -q 'A regular analysis is required before a branch analysis' /tmp/sonar-
     echo "Let me try again with a different kind of scan to create your project."
     echo
     echo "sonar-scanner's output"
-    echo "======================="
+    echo "======================"
     sonar-scanner \
         -Dsonar.host.url="$SONARQUBE_URL" \
         -Dsonar.login="$SONARQUBE_TOKEN" \

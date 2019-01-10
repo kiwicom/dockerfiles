@@ -9,7 +9,7 @@ echo The \`sonar-scanner\` binary is also available for fully customized usage.
 echo
 
 echo "sonar-scanner's output"
-echo "======================="
+echo "======================"
 
 sonar-scanner \
     -Dsonar.host.url="$SONARQUBE_URL" \

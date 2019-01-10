@@ -9,7 +9,7 @@ echo The \`sonar-scanner\` binary is also available for fully customized usage.
 echo
 
 echo "sonar-scanner's output"
-echo "======================="
+echo "======================"
 
 NEW_COMMIT_SHAS=$(git log --pretty=format:%H ${CI_MERGE_REQUEST_TARGET_BRANCH:-master}..$CI_COMMIT_SHA | tr '\n' ',')
 

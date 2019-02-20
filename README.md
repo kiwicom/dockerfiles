@@ -66,6 +66,30 @@ We use this mostly in our GitLab CI or otherwise automated tasks. It's useful wh
 
 This is a container with [cypress.io](https://cypress.io) we use to automate our frontend tests.
 
+## kiwicom/detekt
+
+- Base image: `zenika/kotlin:1.3-jdk12-alpine`
+- Packages: [`detekt`](https://github.com/arturbosch/detekt)
+
+Image used to perform static code analysis of Kotlin code we use on CI.
+
+Usage example:
+
+`docker run -ti -v "$(pwd)":/src --workdir=/src kiwicom/detekt:1.0.0rc14 detekt --input .`
+
+GitLab CI example:
+
+```yaml
+detekt:
+  stage: build
+  image: kiwicom/detekt:1.0.0rc14
+  script:
+    - detekt --input . --report xml:gl-detekt-report.xml
+  artifacts:
+    paths:
+    - gl-detekt-report.xml
+```
+
 ## kiwicom/dgoss
 
 - Base image: `docker:18.02`

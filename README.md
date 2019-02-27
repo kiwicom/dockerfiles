@@ -263,6 +263,25 @@ Like above, but s4cmd instead of s3cmd
 
 Our own [`sentry`](https://github.com/getsentry/sentry) image. With GitLab SSO support
 
+## kiwicom/sls
+
+Docker image for Serverless deployment to GCP/AWS.
+
+- Base image `alpine:3.9`
+- Packages: [`python`](https://www.python.org/), [`curl`](https://curl.haxx.se/), [`Node.js`](https://nodejs.org/en/), [`npm`](https://www.npmjs.com/), [`gcloud SDK`](https://cloud.google.com/sdk/install), [`serverless`](https://serverless.com/)
+
+Gitlab CI example:
+
+```yaml
+deploy:
+  stage: deploy
+  image: kiwicom/sls:latest
+  script:
+    - echo $GCLOUD_CREDENTIALS > credentials.json
+    - npm install
+    - serverless deploy -v
+```
+
 ## kiwicom/sonarqube
 
 - Base image: `openjdk:8-alpine`

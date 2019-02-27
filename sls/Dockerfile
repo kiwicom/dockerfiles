@@ -1,7 +1,8 @@
 FROM alpine:3.9
 
 # Set envs
-ENV CLOUDSDK_CORE_DISABLE_USAGE_REPORTING=true \
+ENV VERSION=1.37.1 \
+  CLOUDSDK_CORE_DISABLE_USAGE_REPORTING=true \
   PATH=$PATH:/usr/local/gcloud/google-cloud-sdk/bin
 
 # Install dependencies and cleanup
@@ -17,4 +18,7 @@ RUN apk add --update curl nodejs=10.14.2-r0 nodejs-npm=10.14.2-r0 python3=3.6.8-
 RUN gcloud components update \
   && gcloud components install beta \
   && npm config set unsafe-perm true \
-  && npm install -g serverless@1.37.1
+  && npm install -g serverless@$VERSION
+
+LABEL name=sls version=$VERSION \
+    maintainer="Dražen Perić <drazen.peric@kiwi.com>"

@@ -309,3 +309,9 @@ Requires setting `SONARQUBE_URL`
 - Packages: `tox`, [`pyenv`](https://github.com/pyenv/pyenv) and its dependencies
 
 Image that allows running tox tests on multiple python versions.
+
+## kiwicom/jackalope
+
+- Base image `ubuntu:16.04`
+
+Used for JAMF audit log in slack.

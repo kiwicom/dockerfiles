@@ -2,8 +2,10 @@
 
 This is a collection of Dockerfiles maintained by the [Kiwi.com Platform Team](https://www.kiwi.com/jobs/devs-tech/platform-engineer/).
 
-The images are built automatically by Docker Hub for the `:latest` tag,
-with updates of the base image triggering rebuilds.
+You can use `./release` to build and publish new versions of the images.
+
+Some of them are also configured to be built automatically by Docker Hub for the `:latest` tag,
+but this is not that reliable so we recommend manually publishing versions from your dev machine.
 
 ## kiwicom/ansible
 

@@ -1,4 +1,4 @@
-FROM alpine:3.9.2
+FROM alpine:3.9
 
 # Set envs
 ENV VERSION=1.39.1 \

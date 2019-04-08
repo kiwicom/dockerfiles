@@ -1,23 +1,23 @@
---- templates/sentry/login.html 9.0.0
+--- templates/sentry/login.html 9.1.0
 +++ templates/sentry/login.html kiwicom-login
-@@ -91,9 +91,9 @@
-         <div class="control-group required">
-           <div class="controls">
-             <label class="control-label">{% trans "Organization ID" %}</label>
--            <input type="text" class="form-control" name="organization" placeholder="acme" required>
--            <p class="help-block">Enter your organization's ID and we'll get things started.</p>
--            <p class="help-block">Your ID is the reference used when Sentry generates URLs.<br />e.g. <code>{{ server_hostname }}/<strong>acme</strong>/</code></p>
-+            <input type="text" class="form-control" name="organization" placeholder="kiwicom" value="kiwicom" required>
-+            <p class="help-block">Just click <em>Continue</em>, even if Platform gave you an own organization.</p>
-+            <p class="help-block">(You can switch to a different organization after login.)</p>
-           </div>
-         </div>
-         <div class="form-actions" style="margin-top: 25px">
+@@ -122,8 +122,9 @@
+             <div class="control-group required">
+               <div class="controls">
+                 <label class="control-label">{% trans "Organization ID" %}</label>
+-                <input type="text" class="form-control" name="organization" placeholder="acme" required>
+-                <p class="help-block">Your ID is the slug after the hostname. e.g. <code>{{ server_hostname }}/<strong>acme</strong>/</code> is <code>acme</code>.</p>
++                <input type="text" class="form-control" name="organization" placeholder="kiwicom" value="kiwicom" required>
++                <p class="help-block">Just click <em>Continue</em>, even if Platform gave you an own organization.</p>
++                <p class="help-block">(You can switch to a different organization after login.)</p>
+               </div>
+             </div>
+             <div class="auth-footer m-t-1">
 
---- web/frontend/auth_login.py 9.0.0
+
+--- web/frontend/auth_login.py 9.1.0
 +++ web/frontend/auth_login.py kiwicom-login
-@@ -136,12 +136,12 @@
-                 return self.redirect(auth.get_login_redirect(request))
+@@ -170,12 +170,12 @@ class AuthLoginView(BaseView):
+                 metrics.incr('login.attempt', instance='failure', skip_internal=True)
 
          context = {
 -            'op': op or 'login',
@@ -29,5 +29,4 @@
 -            'CAN_REGISTER': can_register,
 +            'CAN_REGISTER': False,
          }
-         return self.respond_login(request, context, organization=organization, *args, **kwargs)
-
+         context.update(additional_context.run_callbacks(request))

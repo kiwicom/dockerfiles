@@ -204,6 +204,27 @@ CLI usage example:
 
 `docker run -ti -v "$(pwd)":/src --workdir=/src kiwicom/mypy:0.620 mypy -p kw`
 
+## kiwicom/markdownlint
+
+- Base image: `node:11-alpine`
+- Packages: [`markdownlint-cli`](https://github.com/igorshubovych/markdownlint-cli)
+
+Image used to perform static code analysis of Markdown files we use on CI.
+
+Usage example:
+
+`docker run -ti -v "$(pwd)":/src --workdir=/src kiwicom/markdownlint:0.15.0 markdownlint .`
+
+GitLab CI example:
+
+```yaml
+markdownlint:
+  stage: build
+  image: kiwicom/markdownlint:0.15.0
+  script:
+    - markdownlint .
+```
+
 ## kiwicom/nginx-301-https
 
 - Base image: `nginx:alpine`

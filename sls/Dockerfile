@@ -11,6 +11,7 @@ ENV SERVERLESS_VERSION=1.40.0 \
 
 # Install dependencies and cleanup
 RUN apk add --update unzip jq nodejs=$NODE_VERSION nodejs-npm=$NODE_VERSION python3=$PYTHON3_VERSION \
+  && pip3 install --upgrade pip \
   && pip3 install --upgrade awscli==$AWS_CLI_VERSION \
   && rm -rf /var/cache/apk/* \
   && wget -qO- https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-${CLOUD_SDK_VERSION}-linux-x86_64.tar.gz > /tmp/google-cloud-sdk.tar.gz \

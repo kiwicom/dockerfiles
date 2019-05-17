@@ -10,7 +10,7 @@ ENV SERVERLESS_VERSION=1.40.0 \
     PATH=$PATH:/usr/local/gcloud/google-cloud-sdk/bin:/usr/local/vault
 
 # Install dependencies and cleanup
-RUN apk add --update unzip jq nodejs=$NODE_VERSION nodejs-npm=$NODE_VERSION python3=$PYTHON3_VERSION \
+RUN apk add --update unzip jq nodejs=$NODE_VERSION nodejs-npm=$NODE_VERSION python3=$PYTHON3_VERSION yarn \
   && pip3 install --upgrade pip \
   && pip3 install --upgrade awscli==$AWS_CLI_VERSION \
   && rm -rf /var/cache/apk/* \

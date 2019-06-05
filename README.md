@@ -171,6 +171,30 @@ We use this in CI to check JavaScript code's type correctness, mounting code to 
 
 A Datadog Agent image that collects metrics exposed by GitLab and GitLab CI.
 
+## kiwicom/gitlab-pipeline-checker
+
+- Base image: `alpine:3.9`
+
+A simple script for checking (and waiting for) pipeline status of a Project's commit.
+
+CLI usage example:
+
+```
+docker run -t -e GITLAB_API_TOKEN=<token> kiwicom/gitlab-pipeline-checker wait_for_pipeline <project/name> <commit-sha>
+```
+
+Gitlab CI example:
+
+```yaml
+check_pipeline:
+  stage: test
+  image: kiwicom/gitlab-pipeline-checker
+  script:
+    - wait_for_pipeline project/name $(cat remote-build/commit-sha)
+```
+
+Note that the `GITLAB_API_TOKEN` variable can be configured in Settings > CI/CD.
+
 ## kiwicom/mypy
 
 - Base image: `python:3.7-alpine3.8`

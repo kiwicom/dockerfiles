@@ -7,12 +7,12 @@ RUN apk add --no-cache --virtual=.build-deps curl git linux-headers openssl-dev 
     curl --location https://raw.githubusercontent.com/pyenv/pyenv-installer/master/bin/pyenv-installer | bash && \
     pyenv update && \
     pyenv install 2.7.16 && \
-    pyenv install 3.5.6 && \
+    pyenv install 3.5.7 && \
     pyenv install 3.6.8 && \
-    pyenv install 3.7.2 && \
-    pyenv global 3.7.2 3.6.8 3.5.6 2.7.16 && \
+    pyenv install 3.7.3 && \
+    pyenv global 3.7.3 3.6.8 3.5.7 2.7.16 && \
     pyenv rehash && \
-    pip install tox==3.7.0 && \
+    pip install tox==3.8.6 && \
     apk del .build-deps && \
     rm -rf /var/cache/apk/* && \
     rm -rf /tmp/* && \

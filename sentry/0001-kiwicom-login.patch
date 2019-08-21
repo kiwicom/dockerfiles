@@ -1,4 +1,4 @@
---- templates/sentry/login.html 9.1.0
+--- templates/sentry/login.html 9.1.2
 +++ templates/sentry/login.html kiwicom-login
 @@ -122,8 +122,9 @@
              <div class="control-group required">
@@ -14,7 +14,7 @@
              <div class="auth-footer m-t-1">
 
 
---- web/frontend/auth_login.py 9.1.0
+--- web/frontend/auth_login.py 9.1.2
 +++ web/frontend/auth_login.py kiwicom-login
 @@ -170,12 +170,12 @@ class AuthLoginView(BaseView):
                  metrics.incr('login.attempt', instance='failure', skip_internal=True)

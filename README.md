@@ -197,7 +197,7 @@ Note that the `GITLAB_API_TOKEN` variable can be configured in Settings > CI/CD.
 
 ## kiwicom/mypy
 
-- Base image: `python:3.7-alpine3.8`
+- Base image: `python:3.7-alpine`
 - Packages: [`mypy`](http://www.mypy-lang.org/)
 
 Image used to type-check python code using [`pre-commit`](https://pre-commit.com) hooks and in CI.
@@ -210,7 +210,7 @@ Image used to type-check python code using [`pre-commit`](https://pre-commit.com
     - id: mypy
       name: mypy-type-checks
       language: docker_image
-      entry: --entrypoint mypy kiwicom/mypy:0.620
+      entry: --entrypoint mypy kiwicom/mypy
       types: [python]
 ```
 
@@ -219,14 +219,14 @@ GitLab CI example:
 ```yaml
 type-checks:
   stage: build
-  image: kiwicom/mypy:0.620
+  image: kiwicom/mypy
   script:
     - mypy -p kw
 ```
 
 CLI usage example:
 
-`docker run -ti -v "$(pwd)":/src --workdir=/src kiwicom/mypy:0.620 mypy -p kw`
+`docker run -ti -v "$(pwd)":/src --workdir=/src kiwicom/mypy mypy -p kw`
 
 ## kiwicom/markdownlint
 

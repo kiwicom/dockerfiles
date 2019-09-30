@@ -270,6 +270,13 @@ We use this as reverse proxy that provides authentication with Gitlab or other p
 
 Source: https://github.com/chauffer/dockerfiles/tree/master/oauth2-proxy
 
+## kiwicom/pre-commit
+
+- Base image: `python:3.7-alpine`
+- packages: `git npm bash build-base pre-commit`
+
+We use this image to run our `pre-commit` hooks in CI
+
 ## kiwicom/python-rancher-compose
 
 - Base image: `python:3.6-alpine`

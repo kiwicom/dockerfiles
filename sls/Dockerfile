@@ -29,7 +29,7 @@ RUN apk add --no-cache --virtual=.build-deps curl git openssl-dev bzip2-dev zlib
   && unzip /tmp/vault-linux-amd64.zip -d /usr/local/vault \
   && apk del .build-deps \
   && rm -rf /var/cache/apk/* \
-  && rm /tmp/* \
+  && rm -rf /tmp/* \
   && find /root/.pyenv/versions -type d '(' -name '__pycache__' -o -name 'test' -o -name 'tests' ')' -exec rm -rfv '{}' + \
   && find /root/.pyenv/versions -type f '(' -name '*.py[co]' -o -name '*.exe' ')' -exec rm -fv '{}' +
 

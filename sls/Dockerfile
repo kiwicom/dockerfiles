@@ -16,7 +16,6 @@ RUN apk add --no-cache --virtual=.build-deps curl git openssl-dev bzip2-dev zlib
   && pyenv install 3.7.4 \
   && pyenv global 3.6.8 3.7.4 \
   && pyenv rehash \
-  && alias python3=python3.6 \
   && pip3 install --upgrade pip \
   && pip3 install --upgrade awscli==$AWS_CLI_VERSION \
   && mkdir ~/.aws \

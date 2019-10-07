@@ -14,7 +14,7 @@ RUN apk add --no-cache --virtual=.build-deps curl git openssl-dev bzip2-dev zlib
   && curl --location https://raw.githubusercontent.com/pyenv/pyenv-installer/master/bin/pyenv-installer | bash \
   && pyenv install 3.6.8 \
   && pyenv install 3.7.4 \
-  && pyenv global 3.6.8 3.7.4 \
+  && pyenv global 3.7.4 3.6.8 \
   && pyenv rehash \
   && pip3 install --upgrade pip \
   && pip3 install --upgrade awscli==$AWS_CLI_VERSION \

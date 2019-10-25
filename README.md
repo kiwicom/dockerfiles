@@ -367,3 +367,20 @@ Image that allows running tox tests on multiple python versions.
 - Base image `ubuntu:16.04`
 
 Used for JAMF audit log in slack.
+
+## kiwicom/kubeval
+
+Image for Kubernetes manifests validation.
+
+- Base image `alpine`
+- Packages: [`kubectl`](https://kubernetes.io/docs/reference/kubectl), [`kubeval`](https://kubeval.instrumenta.dev)
+
+Gitlab CI example:
+
+```yaml
+kubeval:
+  stage: lint
+  image: kiwicom/kubeval
+  script:
+    - analyse k8s
+```

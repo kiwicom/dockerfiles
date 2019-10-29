@@ -3,7 +3,8 @@ FROM alpine
 ENV KUBEVAL_VERSION=0.14.0 \
     KUBECTL_VERSION=1.16.2
 
-RUN wget https://github.com/instrumenta/kubeval/releases/download/0.14.0/kubeval-linux-amd64.tar.gz && \
+RUN apk add --no-cache git && \
+    wget https://github.com/instrumenta/kubeval/releases/download/0.14.0/kubeval-linux-amd64.tar.gz && \
     tar xf kubeval-linux-amd64.tar.gz && \
     mv kubeval /usr/local/bin && \
     chmod +x /usr/local/bin/kubeval && \

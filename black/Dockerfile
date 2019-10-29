@@ -1,11 +1,14 @@
-FROM python:3.7-alpine
+FROM python:3.8-alpine
 
-RUN addgroup -S black && adduser -D -S black black && \
-    pip install black==19.3b0 && \
+ENV version=19.10b0
+RUN apk add --no-cache --virtual=.build-deps build-base && \
+    addgroup -S black && adduser -D -S black black && \
+    pip install --no-cache-dir black==$version && \
+    apk del .build-deps && \
     mkdir /src
 
 USER black
 
 CMD ["black"]
-LABEL name=black version=dev \
+LABEL name=black version=$version \
     maintainer="Alex Viscreanu <aexvir@kiwi.com>"

@@ -16,7 +16,7 @@ RUN apk add --no-cache git && \
 
 COPY ./analyse /usr/local/bin
 
-ENTRYPOINT ["/usr/local/bin/analyse"]
+CMD ["/usr/local/bin/analyse"]
 
 LABEL name=kubeval version=$KUBEVAL_VERSION \
     maintainer="Michal Cyprian michal.cyprian@kiwi.com"

@@ -1,6 +1,6 @@
-FROM node:11-alpine
+FROM node:12-alpine
 
-ENV MARKDOWNLINT_VERSION=0.15.0
+ENV MARKDOWNLINT_VERSION=0.19.0
 
 RUN npm install -g markdownlint-cli@${MARKDOWNLINT_VERSION}
 

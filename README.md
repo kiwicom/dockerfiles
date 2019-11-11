@@ -24,7 +24,7 @@ We use this to use AWS cli from Docker.
 ## kiwicom/black
 
 - Base image: `python:3.7-alpine`
-- Packages: [`black`](https://github.com/ambv/black/)
+- Packages: [`black`](https://github.com/psf/black/)
 
 Image used to format python code using [`pre-commit`](https://pre-commit.com) hooks and to check if all the files are correctly formatted on CI.
 
@@ -194,6 +194,39 @@ check_pipeline:
 ```
 
 Note that the `GITLAB_API_TOKEN` variable can be configured in Settings > CI/CD.
+
+## kiwicom/isort
+
+- Base image: `python:3.7-alpine`
+- Packages: [`isort`](https://github.com/timothycrosley/isort/)
+
+Image used to format python code using [`pre-commit`](https://pre-commit.com) hooks and to check if all the imports are correctly sorted on CI.
+
+`pre-commit` hook example:
+
+```yaml
+- repo: local
+  hooks:
+    - id: isort
+      name: sort-python-imports
+      language: docker_image
+      entry: --entrypoint isort kiwicom/isort
+      types: [python]
+```
+
+GitLab CI example:
+
+```yaml
+isort:
+  stage: build
+  image: kiwicom/isort
+  script:
+    - isort --check-only --diff **/*.py
+```
+
+CLI usage example:
+
+`docker run -ti -v "$(pwd)":/src --workdir=/src kiwicom/isort isort **/*.py`
 
 ## kiwicom/mypy
 

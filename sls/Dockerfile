@@ -1,4 +1,4 @@
-FROM alpine:3.9
+FROM alpine
 
 ENV SERVERLESS_VERSION=1.50.0 \
     NODE_VERSION=10.14.2-r0 \
@@ -10,7 +10,7 @@ ENV SERVERLESS_VERSION=1.50.0 \
 
 # Install dependencies and cleanup
 RUN apk add --no-cache --virtual=.build-deps curl git openssl-dev bzip2-dev zlib-dev readline-dev sqlite-dev \
-  && apk add --no-cache --virutal=.run-deps bash build-base openssl readline libffi libbz2 libffi-dev sqlite sqlite-libs bzip2 zlib unzip jq nodejs=$NODE_VERSION nodejs-npm=$NODE_VERSION yarn \
+  && apk add --no-cache --virutal=.run-deps bash docker build-base openssl readline libffi libbz2 libffi-dev sqlite sqlite-libs bzip2 zlib unzip jq nodejs=$NODE_VERSION nodejs-npm=$NODE_VERSION yarn \
   && curl --location https://raw.githubusercontent.com/pyenv/pyenv-installer/master/bin/pyenv-installer | bash \
   && pyenv install 3.6.8 \
   && pyenv install 3.7.4 \

@@ -7,6 +7,13 @@ You can use `./release` to build and publish new versions of the images.
 Some of them are also configured to be built automatically by Docker Hub for the `:latest` tag,
 but this is not that reliable so we recommend manually publishing versions from your dev machine.
 
+## kiwicom/android-automation
+
+- Base image: `python:3.8-alpine`
+- Packages: `curl`, `click`, `requests`
+
+This is currently used for automated phraseapp translations within a job in Android CI.
+
 ## kiwicom/ansible
 
 - Base image `python:3.6-alpine3.7`

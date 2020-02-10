@@ -361,8 +361,8 @@ Our own [`sentry`](https://github.com/getsentry/sentry) image. With GitLab SSO s
 
 Docker image for Serverless deployment to GCP/AWS.
 
-- Base image `alpine:3.9`
-- Packages: [`python`](https://www.python.org/), [`curl`](https://curl.haxx.se/), [`Node.js`](https://nodejs.org/en/), [`npm`](https://www.npmjs.com/), [`gcloud SDK`](https://cloud.google.com/sdk/install), [`serverless`](https://serverless.com/)
+- Base image `node:lts-slim`
+- Packages: [`python`](https://www.python.org/), [`curl`](https://curl.haxx.se/), [`gcloud SDK`](https://cloud.google.com/sdk/install), [`serverless`](https://serverless.com/), [`aws cli`](https://github.com/aws/aws-cli), [`jq`](https://github.com/stedolan/jq), [`vault`](https://github.com/hashicorp/vault)
 
 Gitlab CI example:
 

@@ -395,6 +395,25 @@ We use this to scan code for SonarQube. It assumes it's running on GitLab CI.
 Usage: `$ scan list,of,dirs` or `$ preview list,of,dirs` for preview mode.
 Requires setting `SONARQUBE_URL`
 
+## kiwicom/spectral
+
+- Base image: `node:alpine`
+- Packages: [`@stoplight/spectral`](https://github.com/stoplightio/spectral)
+
+Image used for linting OpenAPI definitions
+
+GitLab CI example:
+
+```yaml
+spectral:
+  stage: build
+  image:
+    name: kiwicom/spectral
+  script:
+    - spectral lint kw/pub/openapi/openapi.yaml
+    - spectral lint kw/baggage/openapi/openapi.yaml
+```
+
 ## kiwicom/tox
 
 - Base image `alpine:3.8`

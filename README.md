@@ -310,6 +310,45 @@ We use this as reverse proxy that provides authentication with Gitlab or other p
 
 Source: https://github.com/chauffer/dockerfiles/tree/master/oauth2-proxy
 
+## kiwicom/pgbouncer
+
+- Base image: `alpine`
+- Packages: [pgbouncer](https://pgbouncer.github.io)
+
+Source: https://gitlab.com/aztek-io/oss/containers/pgbouncer-container
+
+All options defined in `pgbouncer.ini` can be overridden using environment variables
+by using the syntax `<SectionName>_<KeyName>`. For example:
+
+```
+docker run -d \
+    -p 5432:5432 \
+    --name=pgbouncer \
+    -e "DATABASES_HOST=server.name" \
+    -e "DATABASES_PORT=5432" \
+    -e "DATABASES_USER=username" \
+    -e "DATABASES_PASSWORD=secret" \
+    -e "DATABASES_DBNAME=mydatabase" \
+    -e "PGBOUNCER_LISTEN_PORT=5432" \
+    kiwicom/pgbouncer
+```
+
+This will output an ini file similar to this:
+
+```
+[databases]
+* = host = server.name port=5439 user=username password=secret dbname=mydatabase
+
+[pgbouncer]
+listen_addr = 0.0.0.0
+listen_port = 5439
+auth_type = any
+ignore_startup_parameters = extra_float_digits
+
+# Log settings
+admin_users = postgres
+```
+
 ## kiwicom/pre-commit
 
 - Base image: `python:3.7-alpine`

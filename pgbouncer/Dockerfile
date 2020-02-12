@@ -1,8 +1,9 @@
+# hadolint ignore=DL3006
 FROM alpine AS base
 
 ENV PGBOUNCER_VERSION=1.12.0
 
-FROM base AS build_stage
+FROM base AS build
 
 # hadolint ignore=DL3018
 RUN apk --update --no-cache add \
@@ -35,7 +36,7 @@ WORKDIR /tmp/pgbouncer
 RUN ./configure --prefix=/usr && \
     make
 
-FROM base
+FROM base AS release
 
 # hadolint ignore=DL3018
 RUN apk --update --no-cache add \
@@ -47,15 +48,16 @@ RUN apk --update --no-cache add \
 WORKDIR /etc/pgbouncer
 WORKDIR /var/log/pgbouncer
 
-RUN addgroup -S postgres && adduser -D -S postgres postgres && \
+RUN addgroup -S postgres && \
+    adduser -D -S postgres postgres && \
     chown -R postgres:root /etc/pgbouncer /var/log/pgbouncer
 
-USER postgres
-
-COPY --from=build_stage --chown=postgres ["/tmp/pgbouncer", "/opt/pgbouncer"]
-COPY --chown=postgres ["entrypoint.sh", "/opt/pgbouncer"]
+COPY --from=build ["/tmp/pgbouncer", "/opt/pgbouncer"]
+COPY ["entrypoint.sh", "/opt/pgbouncer"]
 
 WORKDIR /opt/pgbouncer
+
+USER postgres
 
 ENTRYPOINT ["/opt/pgbouncer/entrypoint.sh"]
 

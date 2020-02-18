@@ -1,7 +1,8 @@
 # hadolint ignore=DL3006
 FROM alpine AS base
 
-ENV PGBOUNCER_VERSION=1.12.0
+ENV PGBOUNCER_VERSION=1.12.0 \
+    PATH=$PATH:/opt/pgbouncer
 
 FROM base AS build
 
@@ -53,13 +54,12 @@ RUN addgroup -S postgres && \
     chown -R postgres:root /etc/pgbouncer /var/log/pgbouncer
 
 COPY --from=build ["/tmp/pgbouncer", "/opt/pgbouncer"]
-COPY ["entrypoint.sh", "/opt/pgbouncer"]
 
 WORKDIR /opt/pgbouncer
 
 USER postgres
 
-ENTRYPOINT ["/opt/pgbouncer/entrypoint.sh"]
+CMD ["pgbouncer", "/etc/pgbouncer/pgbouncer.ini"]
 
 LABEL name=pgbouncer version=$PGBOUNCER_VERSION \
     maintainer="Pavel Dedik <pavel.dedik@kiwi.com>"

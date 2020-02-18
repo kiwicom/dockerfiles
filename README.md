@@ -315,39 +315,41 @@ Source: https://github.com/chauffer/dockerfiles/tree/master/oauth2-proxy
 - Base image: `alpine`
 - Packages: [pgbouncer](https://pgbouncer.github.io)
 
-Source: https://gitlab.com/aztek-io/oss/containers/pgbouncer-container
-
-All options defined in `pgbouncer.ini` can be overridden using environment variables
-by using the syntax `<SectionName>_<KeyName>`. For example:
+All options have to be configured in `pgbouncer.ini` which you need to mount as a
+volume. If you want to use `auth_type = md5` or any other method which requires
+`userlist.txt`, you need to mount that as well. Here is an example:
 
 ```
 docker run -d \
-    -p 5432:5432 \
-    --name=pgbouncer \
-    -e "DATABASES_HOST=server.name" \
-    -e "DATABASES_PORT=5432" \
-    -e "DATABASES_USER=username" \
-    -e "DATABASES_PASSWORD=secret" \
-    -e "DATABASES_DBNAME=mydatabase" \
-    -e "PGBOUNCER_LISTEN_PORT=5432" \
+    -p 6432:6432 \
+    -v "$(pwd)"/pgbouncer.ini:/etc/pgbouncer/pgbouncer.ini
+    -v "$(pwd)"/userlist.txt:/etc/pgbouncer/userlist.txt
     kiwicom/pgbouncer
 ```
 
-This will output an ini file similar to this:
+Here is an example of the `pgbouncer.ini` file:
 
 ```
 [databases]
-* = host = server.name port=5439 user=username password=secret dbname=mydatabase
+mydb = host=127.0.0.1 port=5432 dbname=mydb
 
 [pgbouncer]
-listen_addr = 0.0.0.0
-listen_port = 5439
-auth_type = any
-ignore_startup_parameters = extra_float_digits
-
-# Log settings
-admin_users = postgres
+listen_port = 6432
+listen_addr = 127.0.0.1
+auth_type = md5
+auth_file = /etc/pgbouncer/userlist.txt
+pidfile = /etc/pgbouncer/pgbouncer.pid
+logfile = /etc/pgbouncer/pgbouncer.log
 ```
+
+And here is an example of `userlist.txt`:
+
+```
+"username1" "md5_of_the_password"
+"username2" "md5_of_the_password"
+```
+
+For more information, see http://www.pgbouncer.org/usage.html.
 
 ## kiwicom/pre-commit
 

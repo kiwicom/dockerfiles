@@ -19,6 +19,7 @@ RUN pip install --no-cache-dir -r optional-requirements.txt && \
 
 COPY *.patch /tmp/
 RUN patch --strip=0 --unified --directory=/usr/local/lib/python2.7/site-packages/sentry < /tmp/0001-kiwicom-login.patch
+RUN patch --strip=0 --unified --directory=/usr/local/lib/python2.7/site-packages/sentry_plugins < /tmp/0002-sentry-plugins-pagerduty.patch
 
 LABEL name=sentry version=$SENTRY_VERSION \
     maintainer="Alex Viscreanu <aexvir@kiwi.com>"

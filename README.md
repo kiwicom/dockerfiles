@@ -436,6 +436,13 @@ We use this to scan code for SonarQube. It assumes it's running on GitLab CI.
 Usage: `$ scan list,of,dirs` or `$ preview list,of,dirs` for preview mode.
 Requires setting `SONARQUBE_URL`
 
+## kiwicom/spectacles
+
+- Base image: `python:3.8-alpine`
+- Packages: `spectacles` (https://github.com/spectacles-ci/spectacles)
+
+Spectacles is a command-line, continuous integration tool for Looker and LookML. spectacles runs validators which perform a range of tests on your Looker instance and your LookML. 
+
 ## kiwicom/spectral
 
 - Base image: `node:alpine`

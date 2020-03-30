@@ -4,7 +4,7 @@ ENV PATH="$PATH:/root/.pyenv/bin:/root/.pyenv/shims"
 ENV TOX_VERSION="3.14.6"
 
 RUN apk add --no-cache --virtual=.build-deps curl git linux-headers openssl-dev sqlite-dev readline-dev bzip2-dev ncurses-dev sqlite-dev patch xz-dev zlib-dev && \
-    apk add --no-cache --virtual=.run-deps bash build-base openssl readline libffi libbz2 libffi-dev bzip2 ncurses sqlite sqlite-libs zlib xz postgresql-dev ca-certificates && \
+    apk add --no-cache --virtual=.run-deps bash build-base curl-dev openssl readline libffi libbz2 libffi-dev bzip2 ncurses sqlite sqlite-libs zlib xz postgresql-dev ca-certificates && \
     curl --location https://raw.githubusercontent.com/pyenv/pyenv-installer/master/bin/pyenv-installer | bash && \
     pyenv update && \
     pyenv install 2.7.17 && \

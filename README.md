@@ -417,15 +417,6 @@ deploy:
     - serverless deploy -v
 ```
 
-## kiwicom/sonar-scanner
-
-- Base image: `sonarsource/sonar-scanner-cli:4.3`
-
-We use this to scan code for SonarQube. It assumes it's running on GitLab CI.
-
-Usage: `$ scan list,of,dirs`
-Requires setting `SONARQUBE_URL`
-
 ## kiwicom/spectacles
 
 - Base image: `python:3.8-alpine`

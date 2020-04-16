@@ -10,4 +10,4 @@ RUN apk add --no-cache git npm bash build-base && \
 CMD ["pre-commit"]
 
 LABEL name=pre-commit version=$version \
-    maintainer="Kiwi.com Platform <platform.software@kiwi.com>"
+    maintainer="Kiwi.com Platform <software.platform@kiwi.com>"

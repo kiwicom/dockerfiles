@@ -1,11 +1,13 @@
-FROM python:3.7-alpine
+FROM python:3.8-alpine
+
+ENV version=2.2.0
 
 RUN apk add --no-cache git npm bash build-base && \
     # npm needs unsafe-perm because of https://github.com/nodejs/docker-node/issues/813
     npm config set unsafe-perm true && \
-    pip install pre-commit==1.18.3
+    pip install pre-commit==$version
 
 CMD ["pre-commit"]
 
-LABEL name=pre-commit version=1.18.3 \
-    maintainer="Jan Bednarik jan.bednarik@kiwi.com"
+LABEL name=pre-commit version=$version \
+    maintainer="Kiwi.com Platform <software.platform@kiwi.com>"

@@ -302,6 +302,13 @@ We use this to redirect http to https in Rancher.
 
 We use this in CI to check security issues of Node.js dependencies.
 
+## kiwicom/poetry
+
+- Base image: python:3.8-alpine
+- Packages: `poetry` and dependencies
+
+We use this in CI for pypi upload.
+
 ## kiwicom/oauth2-proxy
 
 - Base image: `buildpack-deps:jessie-curl`

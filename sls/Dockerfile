@@ -2,11 +2,12 @@ FROM node:lts-slim
 
 ENV SERVERLESS_VERSION=1.63.0 \
     CLOUD_SDK_VERSION=279.0.0 \
-    VAULT_VERSION=1.3.2 \
+    VAULT_VERSION=1.4.3 \
     AWS_CLI_VERSION=1.17.11 \
     CLOUDSDK_CORE_DISABLE_USAGE_REPORTING=true \
-    PATH=$PATH:/usr/local/gcloud/google-cloud-sdk/bin:/usr/local/vault:/root/.pyenv/bin:/root/.pyenv/shims \
-    DEBIAN_FRONTEND=noninteractive
+    PATH=$PATH:/usr/local/gcloud/google-cloud-sdk/bin:/usr/local/vault:/root/.pyenv/bin:/root/.pyenv/shims:/tfenv/bin \
+    DEBIAN_FRONTEND=noninteractive \
+    TFENV_VERSION=v2.0.0
 
 # Install dependencies and cleanup
 RUN apt update && \
@@ -44,6 +45,8 @@ RUN apt update && \
     mkdir -p /usr/local/gcloud && \
     tar -xf /tmp/google-cloud-sdk.tar.gz -C /usr/local/gcloud && \
     /usr/local/gcloud/google-cloud-sdk/install.sh && \
+    git clone --branch ${TFENV_VERSION} https://github.com/tfutils/tfenv.git /tfenv && \
+    tfenv install latest && tfenv install latest:^0.12.28 && \
     wget -qO- https://releases.hashicorp.com/vault/${VAULT_VERSION}/vault_${VAULT_VERSION}_linux_amd64.zip > /tmp/vault-linux-amd64.zip && \
     mkdir -p /usr/local/vault && \
     unzip /tmp/vault-linux-amd64.zip -d /usr/local/vault && \

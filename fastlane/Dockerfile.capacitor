@@ -1,0 +1,43 @@
+FROM openjdk:jdk-buster
+
+ENV ANDROID_HOME "/android-sdk"
+ENV ANDROID_COMPILE_SDK "29"
+ENV ANDROID_BUILD_TOOLS "29.0.2"
+ENV ANDROID_CLI_TOOLS "6609375"
+ENV NODE_OPTIONS "--max_old_space_size=2048"
+ENV PATH "$PATH:${ANDROID_HOME}/platform-tools"
+
+RUN echo "LC_ALL=en_US.UTF-8" >> /etc/environment && \
+    echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen && \
+    echo "LANG=en_US.UTF-8" > /etc/locale.conf
+
+RUN apt update && \
+    curl -sL https://deb.nodesource.com/setup_14.x | bash - && \
+    apt update && \
+    apt install -y \
+        git \
+        bash \
+        build-essential \
+        curl \
+        wget \
+        nodejs \
+        zip \
+        locales \
+        unzip \
+        procps \
+        openssh-client \
+        ca-certificates && \
+    locale-gen en_US.UTF-8 && \
+    npm install -g @ionic/cli && \
+    apt clean autoclean && \
+    rm -rf /var/lib/apt/lists/* && \
+    rm -rf /tmp/*
+        
+RUN curl https://dl.google.com/android/repository/commandlinetools-linux-${ANDROID_CLI_TOOLS}_latest.zip -o cmdtools-linux.zip && \
+    mkdir -p ${ANDROID_HOME}/cmdline-tools && \
+    unzip cmdtools-linux.zip -d ${ANDROID_HOME}/cmdline-tools && \
+    rm cmdtools-linux.zip && \
+    export PATH=$PATH:$ANDROID_HOME/cmdline-tools/tools/bin && \
+    echo y | sdkmanager "platform-tools" "platforms;android-${ANDROID_COMPILE_SDK}" "build-tools;${ANDROID_BUILD_TOOLS}"
+
+CMD ["ionic"]

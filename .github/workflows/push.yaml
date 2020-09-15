@@ -1,0 +1,63 @@
+name: Commit
+on: push
+
+jobs:
+  container:
+    name: Container image
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        image: ["pre-commit"]
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - id: metadata
+        name: Extract metadata
+        working-directory: ${{ matrix.image }}
+        run: |
+          export VERSION=$(grep -oP "^ENV\sversion\=(.*)" Dockerfile | cut -d "=" -f 2)
+          echo "::set-output name=version::$VERSION"
+
+      - name: Building ${{ matrix.image }} version ${{ steps.metadata.outputs.version }}
+        run: echo kiwicom/${{ matrix.image }}:${{ steps.metadata.outputs.version }}
+
+      - name: GitHub Package Registry
+        uses: aevea/action-kaniko@master
+        with:
+          registry: docker.pkg.github.com
+          password: ${{ secrets.GITHUB_TOKEN }}
+          image: ${{ matrix.image }}
+          cache: true
+          cache_registry: cache
+          tag: ${{ steps.metadata.outputs.version }}
+          tag_with_latest: true
+          extra_args: >
+            --context-sub-path ${{ matrix.image }}
+            --dockerfile ${{ matrix.image }}/Dockerfile
+
+      - name: Dockerhub
+        uses: aevea/action-kaniko@master
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
+          image: kiwicom/${{ matrix.image }}
+          cache: true
+          cache_registry: kiwicom/cache
+          tag: ${{ steps.metadata.outputs.version }}
+          tag_with_latest: true
+          extra_args: >
+            --context-sub-path ${{ matrix.image }}
+            --dockerfile ${{ matrix.image }}/Dockerfile
+
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ matrix.image }}-${{ steps.metadata.outputs.version }}
+          release_name: kiwicom/${{ matrix.image }}:${{ steps.metadata.outputs.version }}
+          draft: false
+          prerelease: false

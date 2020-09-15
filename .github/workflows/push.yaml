@@ -1,0 +1,78 @@
+name: Commit
+on: push
+
+jobs:
+  container:
+    name: Container image
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        image: ["black", "pre-commit"]
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: dorny/paths-filter@v2
+        id: filter
+        with:
+          filters: |
+            definition:
+              - '${{ matrix.image }}/**'
+
+      - id: metadata
+        name: Extract metadata
+        if: ${{ steps.filter.outputs.definition == 'true' }}
+        working-directory: ${{ matrix.image }}
+        run: |
+          export VERSION=$(grep -oP "^ENV\sversion\=(.*)" Dockerfile | cut -d "=" -f 2)
+          echo "::set-output name=version::$VERSION"
+
+      - name: Building ${{ matrix.image }} version ${{ steps.metadata.outputs.version }}
+        if: ${{ steps.filter.outputs.definition == 'true' }}
+        run: echo kiwicom/${{ matrix.image }}:${{ steps.metadata.outputs.version }}
+
+      - name: GitHub Package Registry
+        if: ${{ steps.filter.outputs.definition == 'true' }}
+        uses: aevea/action-kaniko@master
+        with:
+          registry: docker.pkg.github.com
+          password: ${{ secrets.GITHUB_TOKEN }}
+          image: ${{ matrix.image }}
+          cache: true
+          cache_registry: cache
+          tag: ${{ steps.metadata.outputs.version }}
+          tag_with_latest: true
+          extra_args: >
+            --context-sub-path ${{ matrix.image }}
+            --dockerfile ${{ matrix.image }}/Dockerfile
+
+      - name: Dockerhub
+        if: ${{ steps.filter.outputs.definition == 'true' }}
+        uses: aevea/action-kaniko@master
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
+          image: kiwicom/${{ matrix.image }}
+          cache: true
+          cache_registry: kiwicom/cache
+          tag: ${{ steps.metadata.outputs.version }}
+          tag_with_latest: true
+          extra_args: >
+            --context-sub-path ${{ matrix.image }}
+            --dockerfile ${{ matrix.image }}/Dockerfile
+
+      - name: Create Release
+        id: create_release
+        if: ${{ steps.filter.outputs.definition == 'true' }}
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ matrix.image }}-${{ steps.metadata.outputs.version }}
+          release_name: kiwicom/${{ matrix.image }}:${{ steps.metadata.outputs.version }}
+          body: |
+            * [dockerhub](https://hub.docker.com/r/kiwicom/${{ matrix.image }}/tags)
+            * [github](https://github.com/kiwicom/dockerfiles/packages)
+          draft: false
+          prerelease: false

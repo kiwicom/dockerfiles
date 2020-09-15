@@ -360,10 +360,12 @@ For more information, see http://www.pgbouncer.org/usage.html.
 
 ## kiwicom/pre-commit
 
-- Base image: `python:3.7-alpine`
+- Base image: `python:3.8-alpine`
 - packages: `git npm bash build-base pre-commit`
 
 We use this image to run our `pre-commit` hooks in CI
+We also offer a `kiwicom/pre-commit:vX.X.X-full` where besides having the latest python version we also
+support previous versions up to Python 3.7
 
 ## kiwicom/python-rancher-compose
 
@@ -429,7 +431,7 @@ deploy:
 - Base image: `python:3.8-alpine`
 - Packages: `spectacles` (https://github.com/spectacles-ci/spectacles)
 
-Spectacles is a command-line, continuous integration tool for Looker and LookML. spectacles runs validators which perform a range of tests on your Looker instance and your LookML. 
+Spectacles is a command-line, continuous integration tool for Looker and LookML. spectacles runs validators which perform a range of tests on your Looker instance and your LookML.
 
 ## kiwicom/spectral
 

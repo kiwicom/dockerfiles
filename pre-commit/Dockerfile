@@ -1,6 +1,6 @@
 FROM python:3.8-alpine
 
-ENV version=2.2.0
+ENV version=2.7.1
 
 RUN apk add --no-cache git npm bash build-base && \
     # npm needs unsafe-perm because of https://github.com/nodejs/docker-node/issues/813

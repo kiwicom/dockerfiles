@@ -1,20 +1,20 @@
 FROM alpine:3
 
 ENV PATH="$PATH:/root/.pyenv/bin:/root/.pyenv/shims"
-ENV TOX_VERSION="3.19.0"
+ENV version=3.20.0
 
 RUN apk add --no-cache --virtual=.build-deps curl git linux-headers openssl-dev sqlite-dev readline-dev bzip2-dev ncurses-dev sqlite-dev patch xz-dev zlib-dev && \
     apk add --no-cache --virtual=.run-deps bash build-base curl-dev openssl readline libffi libbz2 libffi-dev bzip2 ncurses sqlite sqlite-libs zlib xz postgresql-dev ca-certificates && \
     curl --location https://raw.githubusercontent.com/pyenv/pyenv-installer/master/bin/pyenv-installer | bash && \
     pyenv update && \
     pyenv install 2.7.18 && \
-    pyenv install 3.5.9 && \
-    pyenv install 3.6.11 && \
-    pyenv install 3.7.8 && \
+    pyenv install 3.5.10 && \
+    pyenv install 3.6.12 && \
+    pyenv install 3.7.9 && \
     pyenv install 3.8.5 && \
-    pyenv global 3.8.5 3.7.8 3.6.11 3.5.9 2.7.18 && \
+    pyenv global 3.8.5 3.7.9 3.6.12 3.5.10 2.7.18 && \
     pyenv rehash && \
-    pip install tox==$TOX_VERSION && \
+    pip install tox==$version && \
     apk del .build-deps && \
     rm -rf /var/cache/apk/* && \
     rm -rf /tmp/* && \
@@ -22,5 +22,5 @@ RUN apk add --no-cache --virtual=.build-deps curl git linux-headers openssl-dev 
     find /root/.pyenv/versions -type f '(' -name '*.py[co]' -o -name '*.exe' ')' -exec rm -fv '{}' +
 
 CMD ["tox"]
-LABEL name=tox version=$TOX_VERSION \
+LABEL name=tox version=$version \
     maintainer="Alex Viscreanu aexvir@kiwi.com"

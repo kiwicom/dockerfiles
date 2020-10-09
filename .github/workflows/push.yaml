@@ -8,7 +8,7 @@ jobs:
 
     strategy:
       matrix:
-        image: ["black", "pre-commit", "tox"]
+        image: ["black", "kubeval", "pre-commit", "tox"]
 
     steps:
       - uses: actions/checkout@v2
@@ -44,7 +44,7 @@ jobs:
           tag: ${{ steps.metadata.outputs.version }}
           tag_with_latest: true
           extra_args: >
-            --context-sub-path ${{ matrix.image }}
+            --context ${{ matrix.image }}
             --dockerfile ${{ matrix.image }}/Dockerfile
 
       - name: Dockerhub
@@ -59,7 +59,7 @@ jobs:
           tag: ${{ steps.metadata.outputs.version }}
           tag_with_latest: true
           extra_args: >
-            --context-sub-path ${{ matrix.image }}
+            --context ${{ matrix.image }}
             --dockerfile ${{ matrix.image }}/Dockerfile
 
       - name: Create Release

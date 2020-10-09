@@ -1,9 +1,9 @@
 FROM alpine
 
-ENV version=0.14.0
+ENV version=0.15.0
 
 ENV KUBEVAL_VERSION=${version} \
-    KUBECTL_VERSION=1.16.2
+    KUBECTL_VERSION=1.19.2
 
 RUN apk add --no-cache git && \
     wget https://github.com/instrumenta/kubeval/releases/download/${KUBEVAL_VERSION}/kubeval-linux-amd64.tar.gz && \

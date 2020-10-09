@@ -8,13 +8,22 @@ set -e
 OUTDIR=${OUTDIR:-/tmp/kubeval-out/}
 ANALYSEDIR=${1:-.}
 
+analyse_overlay() {
+  tempfile="$OUTDIR"/$(basename "$1")
+  kubectl kustomize "$1" > "$tempfile"
+  kubeval "$tempfile"
+}
 
 analyse_k8s() {
-  for overlay in "$1"/*/overlays/*; do
-    tempfile="$OUTDIR"/$(basename "$overlay")
-    kubectl kustomize "$overlay" > "$tempfile"
-    kubeval "$tempfile"
-  done
+  if [ -e "$1"/overlays ]; then
+    for overlay in "$1"/overlays/*; do
+      analyse_overlay "$overlay"
+    done
+  else
+    for overlay in "$1"/*/overlays/*; do
+      analyse_overlay "$overlay"
+    done
+  fi
 }
 
 mkdir -p "$OUTDIR"

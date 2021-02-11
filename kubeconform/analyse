@@ -1,0 +1,30 @@
+#!/bin/sh
+#
+# This script iterates over all kustomize overlays under specified
+# directory, renders the resulting manifests and performs a kubeconform check on them
+
+set -e
+
+KUBECONFORM_CACHE="${KUBECONFORM_CACHE:-$(mktemp -d)}"
+ANALYSEDIR="${1:-.}"
+
+analyse_overlay() {
+  printf "🧐 %s: \t" "${1}"
+  kubectl kustomize "${1}" | kubeconform --summary -exit-on-error --cache "${KUBECONFORM_CACHE}"
+}
+
+analyse_k8s() {
+  overlays_dir="${1}/overlays"
+  if [ ! -d "${overlays_dir}" ]; then
+    overlays_dir="${1}/*/overlays"
+  fi
+
+  for overlay in "${overlays_dir}"/*; do
+      analyse_overlay "${overlay}"
+  done
+}
+
+mkdir -p "${KUBECONFORM_CACHE}"
+analyse_k8s "$ANALYSEDIR"
+
+exit 0

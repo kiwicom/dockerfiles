@@ -1,8 +1,8 @@
 FROM alpine:3.13.1@sha256:3747d4eb5e7f0825d54c8e80452f1e245e24bd715972c919d189a62da97af2ae
 
-
 # Checksum from https://github.com/yannh/kubeconform/releases/latest
-ARG KUBECONFORM_VERSION=0.4.2
+ENV version=0.4.2
+ARG KUBECONFORM_VERSION=${version}
 # Checksum from https://dl.k8s.io/v${KUBECTL_VERSION}/bin/linux/amd64/kubectl.sha256
 ARG KUBECTL_VERSION=1.20.2
 

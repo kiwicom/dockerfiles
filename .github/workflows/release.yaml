@@ -11,7 +11,7 @@ jobs:
 
     strategy:
       matrix:
-        image: ["black", "kubeval", "kubeconform", "poetry", "pre-commit", "tox"]
+        image: ["black", "kubeval", "kubeconform", "poetry", "pre-commit", "sourcery", "tox"]
 
     steps:
       - uses: actions/checkout@v2

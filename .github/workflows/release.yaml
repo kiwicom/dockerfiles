@@ -13,6 +13,7 @@ jobs:
       matrix:
         image: 
           - black
+          - isort
           - kubeval
           - kubeconform
           - poetry

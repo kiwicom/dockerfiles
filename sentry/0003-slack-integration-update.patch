@@ -1,0 +1,136 @@
+--- integrations/slack/notify_action.py	2021-03-03 15:58:51.000000000 +0100
++++ integrations/slack/notify_action.py	2021-03-03 17:49:20.000000000 +0100
+@@ -1,12 +1,16 @@
+ from __future__ import absolute_import
+
+ from django import forms
++from django.conf import settings
+ from django.utils.translation import ugettext_lazy as _
+
+-from sentry import http
++from redis import StrictRedis
++from requests import Session
++from requests.adapters import HTTPAdapter
+ from sentry.rules.actions.base import EventAction
+ from sentry.utils import metrics, json
+ from sentry.models import Integration
++from urllib3.util import Retry
+
+ from .utils import build_attachment
+
+@@ -15,6 +19,26 @@
+ strip_channel_chars = ''.join([MEMBER_PREFIX, CHANNEL_PREFIX])
+
+
++SLACK_SESSION = Session()
++
++retry = Retry(
++    total=5,
++    read=5,
++    connect=5,
++    backoff_factor=0.5,
++    status_forcelist=(429, 500, 502, 503, 504),
++)
++adapter = HTTPAdapter(max_retries=retry)
++
++SLACK_SESSION.mount("http://", adapter)
++SLACK_SESSION.mount("https://", adapter)
++
++REDIS = StrictRedis(
++    host=settings.SENTRY_REDIS_OPTIONS["hosts"][0]["host"],
++    db=1  # Sentry only uses 0 so far...
++)
++
++
+ class SlackNotifyServiceForm(forms.Form):
+     workspace = forms.ChoiceField(choices=(), widget=forms.Select(
+     ))
+@@ -114,7 +138,7 @@
+                 'attachments': json.dumps([attachment]),
+             }
+
+-            session = http.build_session()
++            session = SLACK_SESSION
+             resp = session.post('https://slack.com/api/chat.postMessage', data=payload)
+             resp.raise_for_status()
+             resp = resp.json()
+@@ -161,6 +185,11 @@
+         )
+
+     def get_channel_id(self, integration_id, name):
++        cached = REDIS.get(name)
++
++        if cached:
++            return (CHANNEL_PREFIX, cached)
++
+         try:
+             integration = Integration.objects.get(
+                 provider='slack',
+@@ -170,40 +199,45 @@
+         except Integration.DoesNotExist:
+             return None
+
+-        session = http.build_session()
++        session = SLACK_SESSION
+
+         token_payload = {
+             'token': integration.metadata['access_token'],
+         }
+
+         # Look for channel ID
+-        channels_payload = dict(token_payload, **{
+-            'exclude_archived': False,
+-            'exclude_members': True,
+-        })
++        cursor = "initial"
++        channels = {}
++        payload = dict(
++            token_payload, **{
++                'exclude_archived': True,
++                'exclude_members': True,
++                'types': 'public_channel,private_channel',
++            }
++        )
+
+-        resp = session.get('https://slack.com/api/channels.list', params=channels_payload)
+-        resp = resp.json()
+-        if not resp.get('ok'):
+-            self.logger.info('rule.slack.channel_list_failed', extra={'error': resp.get('error')})
+-            return None
++        while cursor is not None:
++            if cursor != "initial":
++                payload["cursor"] = cursor
+
+-        channel_id = {c['name']: c['id'] for c in resp['channels']}.get(name)
++            resp = session.get('https://slack.com/api/conversations.list', params=payload)
++            resp = resp.json()
++            if not resp.get('ok'):
++                self.logger.info('rule.slack.channel_list_failed', extra={'error': resp.get('error')})
++                return None
+
+-        if channel_id:
+-            return (CHANNEL_PREFIX, channel_id)
++            channels.update({c['name']: c['id'] for c in resp['channels']})
+
+-        # Channel may be private
+-        resp = session.get('https://slack.com/api/groups.list', params=channels_payload)
+-        resp = resp.json()
+-        if not resp.get('ok'):
+-            self.logger.info('rule.slack.group_list_failed', extra={'error': resp.get('error')})
+-            return None
++            if resp.get("response_metadata", {}).get("next_cursor"):
++                cursor = resp["response_metadata"]["next_cursor"]
++            else:
++                cursor = None
+
+-        group_id = {c['name']: c['id'] for c in resp['groups']}.get(name)
++        REDIS.mset(channels)  # Refresh cache
++        channel_id = channels.get(name)
+
+-        if group_id:
+-            return (CHANNEL_PREFIX, group_id)
++        if channel_id:
++            return (CHANNEL_PREFIX, channel_id)
+
+         # Channel may actually be a user
+         resp = session.get('https://slack.com/api/users.list', params=token_payload)

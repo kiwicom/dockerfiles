@@ -19,7 +19,7 @@ analyse_k8s() {
     overlays_dir="${1}/*/overlays"
   fi
 
-  for overlay in "${overlays_dir}"/*; do
+  for overlay in ${overlays_dir}/*; do
       analyse_overlay "${overlay}"
   done
 }

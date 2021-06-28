@@ -1,4 +1,4 @@
-FROM alpine:3.13.1@sha256:3747d4eb5e7f0825d54c8e80452f1e245e24bd715972c919d189a62da97af2ae
+FROM python-3.9.5-alpine3.13@sha256:6e3338f6e2b41f1c2368700f7447471133f8a2445a5500642107cc36e887bca9
 
 # Checksum from https://github.com/yannh/kubeconform/releases/latest
 ENV version=0.4.7
@@ -26,7 +26,7 @@ RUN apk add --no-cache git~=2.30 && \
     cd / && \
     rm -rf /tmp/onbuild
 
-COPY ./analyse /usr/local/bin
+COPY ./analyse.py /usr/local/bin/analyse
 
 CMD ["/usr/local/bin/analyse"]
 

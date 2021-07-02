@@ -1,8 +1,9 @@
-FROM python:3.7-alpine
+FROM python:3.9-alpine
 
+ENV version=0.910
 RUN addgroup -S mypy && adduser -D -S mypy mypy && \
     apk add --no-cache --virtual=.build-deps build-base && \
-    pip install mypy==0.720 && \
+    pip install mypy==$version && \
     mkdir /src && \
     apk del .build-deps
 

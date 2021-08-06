@@ -20,6 +20,7 @@ kubeconform_cache = os.environ.get('KUBECONFORM_CACHE')
 if not kubeconform_cache:
     kubeconform_cache = tempfile.mkdtemp()
 
+k8s_version = os.environ.get('KUBECONFORM_K8S_VERSION')
 
 def analyse_overlay(overlay_dir):
     print(f"🧐 {overlay_dir}: \t", end='', flush=True)
@@ -29,9 +30,14 @@ def analyse_overlay(overlay_dir):
         for location in args.schema_location:
             extra_args.extend(['-schema-location', location])
 
+    if k8s_version:
+        extra_args.extend(['-kubernetes-version', k8s_version])
+
     p1 = subprocess.Popen(["kubectl", "kustomize", overlay_dir], stdout=subprocess.PIPE)
-    p2 = subprocess.Popen(["kubeconform", "-summary", "-exit-on-error", "-cache", kubeconform_cache] + extra_args,
-                          stdin=p1.stdout)
+    p2 = subprocess.Popen(
+        ["kubeconform", "-summary", "-exit-on-error", "-cache", kubeconform_cache, *extra_args],
+        stdin=p1.stdout,
+    )
     p1.stdout.close()  # Allow p1 to receive a SIGPIPE if p2 exits.
     return_code = p2.wait()
     if return_code != 0:

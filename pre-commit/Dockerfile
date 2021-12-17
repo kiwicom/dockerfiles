@@ -9,7 +9,8 @@ RUN apt update && apt install -y git bash curl build-essential libffi-dev libssl
     pyenv install 3.7.9 && \
     pyenv install 3.8.7 && \
     pyenv install 3.9.1 && \
-    pyenv global 3.9.1 3.8.7 3.7.9 && \
+    pyenv install 3.10.0 && \
+    pyenv global 3.9.1 3.8.7 3.7.9 3.10.0 && \
     pyenv rehash && \
     npm config set unsafe-perm true && \
     pip install pre-commit==$version && \

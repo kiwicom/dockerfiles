@@ -2,7 +2,8 @@ name: Commit
 on:
   push:
     branches:
-      - master
+      - '*'
+      - '!master'
 
 jobs:
   container:
@@ -11,15 +12,8 @@ jobs:
 
     strategy:
       matrix:
-        image: 
-          - black
-          - isort
-          - kubeval
-          - kubeconform
-          - poetry
+        image:
           - pre-commit
-          - sourcery
-          - tox
 
     steps:
       - uses: actions/checkout@v2
@@ -60,7 +54,7 @@ jobs:
 
       - name: Dockerhub
         if: ${{ steps.filter.outputs.definition == 'true' }}
-        uses: aevea/action-kaniko@master
+        uses: aevea/action-kaniko@v0.6.1
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}

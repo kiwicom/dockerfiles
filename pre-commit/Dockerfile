@@ -1,7 +1,7 @@
 FROM python:3.10-slim
 
 ENV PATH="$PATH:/root/.pyenv/bin:/root/.pyenv/shims"
-ENV version=2.15.0
+ENV version=2.17.0
 
 RUN apt update && apt install -y git bash curl build-essential libffi-dev libssl-dev libbz2-dev libncursesw5-dev libgdbm-dev liblzma-dev libsqlite3-dev tk-dev uuid-dev libreadline-dev nodejs npm zlib1g-dev && \
     curl --location https://raw.githubusercontent.com/pyenv/pyenv-installer/master/bin/pyenv-installer | bash && \

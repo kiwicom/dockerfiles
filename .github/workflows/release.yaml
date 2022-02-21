@@ -11,7 +11,7 @@ jobs:
 
     strategy:
       matrix:
-        image: 
+        image:
           - black
           - isort
           - kubeval
@@ -47,7 +47,7 @@ jobs:
         if: ${{ steps.filter.outputs.definition == 'true' }}
         uses: aevea/action-kaniko@master
         with:
-          registry: docker.pkg.github.com
+          registry: ghcr.io
           password: ${{ secrets.GITHUB_TOKEN }}
           image: ${{ matrix.image }}
           cache: true

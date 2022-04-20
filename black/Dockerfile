@@ -1,6 +1,6 @@
-FROM python:3.9-alpine
+FROM python:3.10-alpine
 
-ENV version=21.5b0
+ENV version=22.3.0
 RUN apk add --no-cache --virtual=.build-deps build-base && \
     addgroup -S black && adduser -D -S black black && \
     pip install --no-cache-dir black==$version && \
@@ -11,4 +11,4 @@ USER black
 
 CMD ["black"]
 LABEL name=black version=$version \
-    maintainer="Alex Viscreanu <aexvir@kiwi.com>"
+    maintainer="Kiwi.com Platform <software.platform@kiwi.com>"

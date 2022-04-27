@@ -1,7 +1,7 @@
 FROM alpine:latest
 
 ENV PATH="$PATH:/root/.pyenv/bin:/root/.pyenv/shims"
-ENV version=3.22.0
+ENV version=3.3.0
 
 RUN apk add --no-cache --virtual=.build-deps bzip2-dev cargo curl git linux-headers ncurses-dev openssl-dev patch readline-dev sqlite-dev sqlite-dev xz-dev zlib-dev && \
     apk add --no-cache --virtual=.run-deps bash build-base curl-dev openssl readline libffi libbz2 libffi-dev bzip2 ncurses sqlite sqlite-libs zlib xz postgresql-dev ca-certificates && \

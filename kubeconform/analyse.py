@@ -39,9 +39,14 @@ def analyse_overlay(overlay_dir):
         stdin=p1.stdout,
     )
     p1.stdout.close()  # Allow p1 to receive a SIGPIPE if p2 exits.
-    return_code = p2.wait()
-    if return_code != 0:
-        raise SystemExit(return_code)
+    p2ret = p2.wait()
+    if p2ret != 0:
+        print(f'kubeconform failed with exit code {p2ret}', file=sys.stderr)
+        raise SystemExit(p2ret)
+    p1ret = p1.wait()
+    if p1ret != 0:
+        print(f'kubectl kustomize failed with exit code {p1ret}', file=sys.stderr)
+        raise SystemExit(p1ret)
 
 
 def analyse_k8s(dir):

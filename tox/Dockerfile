@@ -13,7 +13,8 @@ RUN apk add --no-cache --virtual=.build-deps bzip2-dev cargo curl git linux-head
     pyenv install 3.8.7 && \
     pyenv install 3.9.1 && \
     pyenv install 3.10.4 && \
-    pyenv global 3.10.4 3.9.1 3.8.7 3.7.9 3.6.12 3.5.10 && \
+    pyenv install 3.11.2 && \
+    pyenv global 3.11.2 3.10.4 3.9.1 3.8.7 3.7.9 3.6.12 3.5.10 && \
     pyenv rehash && \
     pip install tox==$version && \
     apk del .build-deps && \

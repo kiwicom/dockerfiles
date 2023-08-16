@@ -1,6 +1,6 @@
 FROM python:3.9-alpine
 
-ENV version=1.4.2
+ENV version=1.5.1
 
 RUN apk add --no-cache --virtual .build build-base cargo libffi-dev openssl-dev && \
     pip install --upgrade pip && \

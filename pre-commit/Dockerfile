@@ -14,7 +14,6 @@ RUN apt update && \
     pyenv install 3.11.2 && \
     pyenv global 3.11.2 3.10.10 3.9.16 3.8.16 3.7.16 && \
     pyenv rehash && \
-    npm config set unsafe-perm true && \
     pip install pre-commit==$version && \
     rm -rf /var/cache/apk/* && \
     rm -rf /tmp/* && \

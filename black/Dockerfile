@@ -1,6 +1,6 @@
-FROM python:3.10-alpine
+FROM python:3.12-alpine
 
-ENV version=22.3.0
+ENV version=23.11.0
 RUN apk add --no-cache --virtual=.build-deps build-base && \
     addgroup -S black && adduser -D -S black black && \
     pip install --no-cache-dir black==$version && \

@@ -1,18 +1,19 @@
 FROM python:3.11-slim
 
 ENV PATH="$PATH:/root/.pyenv/bin:/root/.pyenv/shims"
-ENV version=3.4.0
+ENV version=3.6.0
 
 RUN apt update && \
     apt install -y git golang bash curl build-essential libffi-dev libssl-dev libbz2-dev libncursesw5-dev libgdbm-dev liblzma-dev libsqlite3-dev tk-dev uuid-dev libreadline-dev nodejs npm python3-distutils zlib1g-dev && \
     curl --location https://raw.githubusercontent.com/pyenv/pyenv-installer/master/bin/pyenv-installer | bash && \
     pyenv update && \
-    pyenv install 3.7.16 && \
-    pyenv install 3.8.16 && \
-    pyenv install 3.9.16 && \
-    pyenv install 3.10.10 && \
-    pyenv install 3.11.2 && \
-    pyenv global 3.11.2 3.10.10 3.9.16 3.8.16 3.7.16 && \
+    pyenv install 3.7.17 && \
+    pyenv install 3.8.18 && \
+    pyenv install 3.9.18 && \
+    pyenv install 3.10.13 && \
+    pyenv install 3.11.7 && \
+    pyenv install 3.12.1 && \
+    pyenv global 3.12.1 3.11.7 3.10.13 3.9.18 3.8.18 3.7.17 && \
     pyenv rehash && \
     pip install pre-commit==$version && \
     rm -rf /var/cache/apk/* && \

@@ -1,4 +1,4 @@
-FROM alpine:3.6
+FROM alpine:3.19
 
 ENV FLOW_VERSION=0.57.3
 

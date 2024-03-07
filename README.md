@@ -360,12 +360,11 @@ For more information, see http://www.pgbouncer.org/usage.html.
 
 ## kiwicom/pre-commit
 
-- Base image: `python:3.8-alpine`
-- packages: `git npm bash build-base pre-commit`
+- Base image: `python:3.12-slim`
+- packages: `git npm nodejs bash build-base golang pre-commit`
+- supported Python versions: 3.12, 3.11, 3.10, 3.9, 3.8, 3.7
 
-We use this image to run our `pre-commit` hooks in CI
-We also offer a `kiwicom/pre-commit:vX.X.X-full` where besides having the latest python version we also
-support previous versions up to Python 3.7
+We use this image to run our `pre-commit` hooks in CI.
 
 ## kiwicom/python-rancher-compose
 

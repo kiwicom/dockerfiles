@@ -304,10 +304,10 @@ We use this in CI to check security issues of Node.js dependencies.
 
 ## kiwicom/poetry
 
-- Base image: python:3.8-alpine
+- Base image: python:3.12-slim
 - Packages: `poetry` and dependencies
 
-We use this in CI for pypi upload.
+We use this in CI for installing dependencies and uploading to PyPI.
 
 ## kiwicom/oauth2-proxy
 

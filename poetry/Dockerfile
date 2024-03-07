@@ -1,12 +1,12 @@
-FROM python:3.9-alpine
+FROM python:3.12-slim
 
-ENV version=1.5.1
+ENV version=1.8.2
 
-RUN apk add --no-cache --virtual .build build-base cargo libffi-dev openssl-dev && \
+RUN apt update && \
+    apt install -y build-essential cargo libffi-dev libssl-dev && \
     pip install --upgrade pip && \
-    pip install setuptools poetry==$version && \
-    apk del .build
+    pip install setuptools poetry==$version
 
 LABEL name=poetry version=$version \
-    maintainer="Jaroslav Sevcik <jaroslav.sevcik@kiwi.com>"
+    maintainer="Kiwi.com Platform <software.platform@kiwi.com>"
 

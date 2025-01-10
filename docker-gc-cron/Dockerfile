@@ -1,4 +1,4 @@
-FROM alpine:3.5
+FROM alpine:3.21
 
 # Fork of https://github.com/clockworksoul/docker-gc-cron
 

@@ -1,0 +1,3 @@
+[submodule "openapi-generator/src"]
+	path = openapi-generator/src
+	url = https://github.com/OpenAPITools/openapi-generator.git

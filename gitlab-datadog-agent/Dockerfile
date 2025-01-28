@@ -1,3 +1,3 @@
-FROM datadog/agent:6.3.3
+FROM datadog/agent:6.53.1
 
 COPY conf.d /conf.d

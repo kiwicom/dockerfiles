@@ -1,20 +1,18 @@
-FROM alpine:3.15.4
+FROM alpine:3.21
 
 ENV PATH="$PATH:/root/.pyenv/bin:/root/.pyenv/shims"
-ENV version=3.25.0
+ENV version=3.28.0
 
 RUN apk add --no-cache --virtual=.build-deps bzip2-dev cargo curl git linux-headers ncurses-dev openssl-dev patch readline-dev sqlite-dev sqlite-dev xz-dev zlib-dev && \
     apk add --no-cache --virtual=.run-deps bash build-base curl-dev openssl readline libffi libbz2 libffi-dev bzip2 ncurses sqlite sqlite-libs zlib xz postgresql-dev ca-certificates && \
     curl --location https://raw.githubusercontent.com/pyenv/pyenv-installer/master/bin/pyenv-installer | bash && \
     pyenv update && \
-    pyenv install 3.5.10 && \
-    pyenv install 3.6.12 && \
-    pyenv install 3.7.9 && \
-    pyenv install 3.8.7 && \
-    pyenv install 3.9.1 && \
-    pyenv install 3.10.4 && \
-    pyenv install 3.11.2 && \
-    pyenv global 3.11.2 3.10.4 3.9.1 3.8.7 3.7.9 3.6.12 3.5.10 && \
+    pyenv install 3.9.21 && \
+    pyenv install 3.10.16 && \
+    pyenv install 3.11.11 && \
+    pyenv install 3.12.9 && \
+    pyenv install 3.13.2 && \
+    pyenv global 3.13.2 3.12.9 3.11.11 3.10.16 3.9.21 && \
     pyenv rehash && \
     pip install tox==$version && \
     apk del .build-deps && \

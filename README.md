@@ -453,7 +453,7 @@ spectral:
 
 ## kiwicom/tox
 
-- Base image `alpine:3.8`
+- Base image `alpine:3.21`
 - Packages: `tox`, [`pyenv`](https://github.com/pyenv/pyenv) and its dependencies
 
 Image that allows running tox tests on multiple python versions.

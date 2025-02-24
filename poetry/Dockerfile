@@ -1,6 +1,6 @@
 FROM python:3.12-slim
 
-ENV version=1.8.2
+ENV version=1.8.5
 
 RUN apt update && \
     apt install -y build-essential cargo libffi-dev libssl-dev && \

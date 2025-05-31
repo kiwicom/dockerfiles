@@ -1,4 +1,4 @@
-FROM alpine:3.21
+FROM alpine:3.22
 
 ENV PATH="$PATH:/root/.pyenv/bin:/root/.pyenv/shims"
 ENV version=4.24.1

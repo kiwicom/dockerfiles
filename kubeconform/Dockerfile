@@ -1,4 +1,4 @@
-FROM python:3.9.6-alpine3.14@sha256:3e7e8a57a959c393797f0c90fa7b0fdbf7a40c4a274028e3f28a4f33d4783866
+FROM python:3.9.6-alpine3.14@sha256:f624a022976a70f6862ee66bec9b900e097b814086a8057bee4ed96a4bbaa2b5
 
 # Checksum from https://github.com/yannh/kubeconform/releases/latest
 ENV version=0.4.12

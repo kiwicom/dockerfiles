@@ -1,4 +1,4 @@
-FROM zenika/kotlin:1.3-jdk12-alpine
+FROM zenika/kotlin:1.4-jdk12-alpine
 
 ENV VERSION=1.0.0-RC14 \
     PATH=$PATH:/opt/detekt/bin

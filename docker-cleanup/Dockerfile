@@ -1,4 +1,4 @@
-FROM alpine:3.5
+FROM alpine:3.24
 
 # Generic docker-cleanup tool
 # Currently runs docker-gc & removes dangling volumes
